@@ -65,3 +65,6 @@ add_f:
     add eax, '0' ;ascii rep
     mov [c], eax   
     ret
+
+;nasm -f elf add.asm
+;ld -m elf_i386 -s -o add add.
