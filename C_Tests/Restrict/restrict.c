@@ -17,7 +17,7 @@ int main(void)
     /*
     Expected vs actual result
     x = 1   |   1
-    y = 25  |   25 
+    y = 25  |   15 
     z = 20  |   20
     */
     printf("Result\n"
