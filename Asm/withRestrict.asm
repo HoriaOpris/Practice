@@ -26,15 +26,34 @@ _start:	                ;tells linker entry point
 
     ;Add 2 to a number
         ;put the value of the variable on the stack
-        push x
+        push z
         push y
-        call add_f
+        push z
+        call add_to_2
+        pop ebx
         pop ebx
         pop ebx
 
-        mov [z], eax
+        ;mov [x], eax
+    ;ascii
+    mov eax, 48
+    add [x], eax
+    add [y], eax
+    add [z], eax
 
     ;print x,y,z
+    mov ecx, x
+    mov	edx, 1           ;message length
+    mov	eax, SYS_WRITE   ;system call number (sys_write)
+    mov	ebx, STDOUT      ;file descriptor (stdout)
+    int	CALL_KERNEL     ;call kernel
+
+    mov ecx, y
+    mov	edx, 1           ;message length
+    mov	eax, SYS_WRITE   ;system call number (sys_write)
+    mov	ebx, STDOUT      ;file descriptor (stdout)
+    int	CALL_KERNEL     ;call kernel
+
     mov ecx, z
     mov	edx, 1           ;message length
     mov	eax, SYS_WRITE   ;system call number (sys_write)
@@ -70,8 +89,17 @@ add_f:
 ;3 parameters: *a, *b, *c
 ; *a += *c
 ; *b += *c
-;
+;  no return 
 add_to_2:
+    mov eax, [esp + 4]  ;get a
+    mov ebx, [esp + 8]  ;get b
+    mov ecx, [esp + 12] ;get c
+    mov ecx, [ecx]      ;get c
+
+    add [eax], ecx      ; *a += *c
+    add [ebx], ecx      ; *b += *c
+
+    ret
 
 ;nasm -f elf add.asm
 ;ld -m elf_i386 -s -o add add.
