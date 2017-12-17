@@ -94,10 +94,12 @@ add_to_2:
     mov eax, [esp + 4]  ;get a
     mov ebx, [esp + 8]  ;get b
     mov ecx, [esp + 12] ;get c
-    mov ecx, [ecx]      ;get c
+    
+    mov edx, [ecx]
+    add [eax], edx      ; *a += *c
+    mov edx, [ecx]
 
-    add [eax], ecx      ; *a += *c
-    add [ebx], ecx      ; *b += *c
+    add [ebx], edx      ; *b += *c
 
     ret
 
