@@ -3,15 +3,19 @@
  *
  *
  * */
-#include<stdio.h>
-#include<math.h>
+#include <stdio.h>
+#include <math.h>
 
 static void printToFindPattern(void);
+static unsigned int getSumOfDigits(unsigned int number);
 static unsigned int getTwoToThePow(unsigned int power);
+static void itoa(long i, char* s);
 
 int main(void)
 {
 	printToFindPattern();
+
+	getSumOfDigits(4421);
 
 	return 0;
 }
@@ -22,6 +26,22 @@ static void printToFindPattern(void)
 	{
 		printf("%d\n", getTwoToThePow(i));
 	}
+}
+
+static unsigned int getSumOfDigits(unsigned int number)
+{
+	char stringNo[20];
+
+	itoa(number, stringNo);
+
+	printf("\n string: %s\n", stringNo);
+
+	return 0;
+}
+
+static void itoa(long i, char* s)
+{
+	sprintf(s, "%ld", i);
 }
 
 static unsigned int getTwoToThePow(unsigned int power)
