@@ -10,6 +10,7 @@ static void printToFindPattern(void);
 static unsigned int getSumOfDigits(unsigned int number);
 static unsigned int getTwoToThePow(unsigned int power);
 static void itoa(long i, char* s);
+static char removeAsciiComponent(char asciiNo);
 
 int main(void)
 {
@@ -23,20 +24,36 @@ int main(void)
 static void printToFindPattern(void)
 {
 	for (int i = 1; i < 20; i++)
-	{
-		printf("%d\n", getTwoToThePow(i));
-	}
+		printf("Number:%d \t Sum of digits:%d \n", getTwoToThePow(i),
+				getSumOfDigits(getTwoToThePow(i)));
 }
 
 static unsigned int getSumOfDigits(unsigned int number)
 {
 	char stringNo[20];
+	unsigned int sumOfDigits = 0;
 
 	itoa(number, stringNo);
 
-	printf("\n string: %s\n", stringNo);
+	for (int i = 0; i < 20; i++)
+		if (stringNo[i] != 0)
+			sumOfDigits += removeAsciiComponent(stringNo[i]);
+		else
+			break;
 
-	return 0;
+	return sumOfDigits;
+}
+
+static char removeAsciiComponent(char asciiNo)
+{
+	const char asciiComponent = 48;
+
+	if (asciiNo >= asciiComponent)
+		asciiNo -= asciiComponent;
+	else
+		/* Todo @Horia: Error handling necessary? */
+
+		return asciiNo;
 }
 
 static void itoa(long i, char* s)
