@@ -3,20 +3,28 @@
  *
  *
  * */
-
 #include<stdio.h>
 #include<math.h>
 
-unsigned int getTwoToThePow(unsigned int power);
+static void printToFindPattern(void);
+static unsigned int getTwoToThePow(unsigned int power);
 
 int main(void)
 {
-	printf("Test:%d \n", getTwoToThePow(15));
+	printToFindPattern();
 
 	return 0;
 }
 
-unsigned int getTwoToThePow(unsigned int power)
+static void printToFindPattern(void)
 {
-	return pow(2,power);
+	for (int i = 1; i < 20; i++)
+	{
+		printf("%d\n", getTwoToThePow(i));
+	}
+}
+
+static unsigned int getTwoToThePow(unsigned int power)
+{
+	return pow(2, power);
 }
