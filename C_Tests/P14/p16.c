@@ -11,6 +11,7 @@
 static void MultiplyNumberBy(int rval);
 static void InitStoredDigits(void);
 static int CalculateSum(void);
+static void IncrementTerminatorMarker(int *digit);
 
 // storing result digits one byte at a time by doubling
 static int storedDigits[1000];
@@ -63,7 +64,7 @@ static void MultiplyNumberBy(int rval)
 
 	for (int i = 0; i < ARR_SIZE(storedDigits); i++)
 	{
-		// if not end of
+		// if not end of number
 		if (storedDigits[i] != 't')
 		{
 			storedDigits[i] *= rval;
@@ -75,16 +76,21 @@ static void MultiplyNumberBy(int rval)
 				storedDigits[i] %= 10;
 				carry = 1;
 
-				if (storedDigits[i + 1] == 't')
-				{
-					storedDigits[i + 1] = 0;
-					storedDigits[i + 2] = 't';
-				}
+				IncrementTerminatorMarker(&storedDigits[i + 1]);
 			}
 		}
 		else
 		{
 			break;
 		}
+	}
+}
+
+static void IncrementTerminatorMarker(int *digit)
+{
+	if (digit[0] == 't')
+	{
+		digit[0] = 0;
+		digit[1] = 't';
 	}
 }
