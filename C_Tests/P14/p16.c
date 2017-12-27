@@ -8,7 +8,8 @@
 
 #define ARR_SIZE(arr) sizeof(arr) / sizeof(arr[0])
 
-static void store(void);
+static void MultiplyNumberBy(int rval);
+static void InitStoredDigits(void);
 static int CalculateSum(void);
 
 // storing result digits one byte at a time by doubling
@@ -16,21 +17,24 @@ static int storedDigits[1000];
 
 extern int P16_GetSumOfTwosPower(int power)
 {
-	for (int i = 0; i < ARR_SIZE(storedDigits); i++)
+	InitStoredDigits();
+
+	for (int i = 0; i < power; i++)
 	{
-		storedDigits[i] = 0;
+		MultiplyNumberBy(2);
 	}
+
+	return CalculateSum();
+}
+
+static void InitStoredDigits(void)
+{
+	for (int i = 0; i < ARR_SIZE(storedDigits); i++)
+		storedDigits[i] = 0;
 
 	// 2^0
 	storedDigits[0] = 1;
 	storedDigits[1] = 't';
-
-	for (int i = 0; i < power; i++)
-	{
-		store();
-	}
-
-	return CalculateSum();
 }
 
 static int CalculateSum(void)
@@ -45,6 +49,7 @@ static int CalculateSum(void)
 			{
 				sum += storedDigits[j];
 			}
+
 			break;
 		}
 	}
@@ -52,7 +57,7 @@ static int CalculateSum(void)
 	return sum;
 }
 
-static void store(void)
+static void MultiplyNumberBy(int rval)
 {
 	int carry = 0;
 
@@ -61,7 +66,7 @@ static void store(void)
 		// if not end of
 		if (storedDigits[i] != 't')
 		{
-			storedDigits[i] *= 2;
+			storedDigits[i] *= rval;
 			storedDigits[i] += carry;
 			carry = 0;
 
@@ -75,10 +80,6 @@ static void store(void)
 					storedDigits[i + 1] = 0;
 					storedDigits[i + 2] = 't';
 				}
-			}
-			else
-			{
-				//break;
 			}
 		}
 		else
