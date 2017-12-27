@@ -5,20 +5,27 @@
  * */
 
 #include "p16.h"
+#include "malloc.h"
 
 #define ARR_SIZE(arr) sizeof(arr) / sizeof(arr[0])
 
 static void MultiplyNumberBy(int rval);
-static void InitStoredDigits(void);
 static int CalculateSum(void);
 static void IncrementTerminatorMarker(int *digit);
+static void InitBigInteger(int **bigInteger);
 
 // storing result digits one byte at a time by doubling
 static int storedDigits[1000];
 
 extern int P16_GetSumOfTwosPower(int power)
 {
-	InitStoredDigits();
+	int *bigInteger;
+	InitBigInteger(&bigInteger);
+
+	for (int i = 0; i < 1000; i++)
+	{
+		storedDigits[i] = bigInteger[i];
+	}
 
 	for (int i = 0; i < power; i++)
 	{
@@ -28,14 +35,16 @@ extern int P16_GetSumOfTwosPower(int power)
 	return CalculateSum();
 }
 
-static void InitStoredDigits(void)
+static void InitBigInteger(int **bigInteger)
 {
-	for (int i = 0; i < ARR_SIZE(storedDigits); i++)
-		storedDigits[i] = 0;
+	*bigInteger = malloc(1000 * sizeof(int));
+
+	for (int i = 0; i < 1000; i++)
+		(*bigInteger)[i] = 0;
 
 	// 2^0
-	storedDigits[0] = 1;
-	storedDigits[1] = 't';
+	(*bigInteger)[0] = 1;
+	(*bigInteger)[1] = 't';
 }
 
 static int CalculateSum(void)
