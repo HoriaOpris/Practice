@@ -2,35 +2,85 @@
 #include "test.h"
 #include "utils/bigint_test.h"
 #include <stdio.h>
+#include <malloc.h>
 
 static const char *testVerdict[] = { "Passed", "Failed" };
+
+struct TestFunctions
+{
+	Test_FunctionPointer pointToTest;
+	struct TestFunctions *link;
+};
 
 static TestInfo test_p16_0(void);
 static TestInfo test_p16_1(void);
 static TestInfo test_p16_2(void);
 
-Test_FunctionPointer fp[] = { test_p16_0, test_p16_1, test_p16_2 };
+static void InitLinkedList(struct TestFunctions **f, Test_FunctionPointer fp);
+static void AddTest(struct TestFunctions *f, Test_FunctionPointer fp);
+
+static Test_FunctionPointer fp[] = { test_p16_0, test_p16_1, test_p16_2 };
 
 int main(void)
 {
+	struct TestFunctions *testF;
 	TestInfo test;
 
-	for (int i = 0; i < sizeof(fp) / sizeof(fp[0]); i++)
+	InitLinkedList(&testF, test_p16_0);
+	AddTest(testF, test_p16_1);
+	AddTest(testF, test_p16_2);
+
+	for (int i = 0; i < 4; i++)
 	{
-		test = fp[i]();
-
-		printf("Test[%d]: %s", test.number, testVerdict[test.verdict]);
-
-		if (test.verdict == FAILED)
+		if (testF != 0)
 		{
-			printf(", Expected: %d \t Actual: %d \n", test.expected,
-					test.actual);
-		}
+			test = testF->pointToTest();
+			testF = testF->link;
 
-		printf("\n");
+			printf("Test[%d]: %s", test.number, testVerdict[test.verdict]);
+
+			if (test.verdict == FAILED)
+			{
+				printf(", Expected: %d \t Actual: %d \n", test.expected,
+						test.actual);
+			}
+
+			printf("\n");
+		}
+		else
+		{
+			break;
+		}
 	}
 
 	return 0;
+}
+
+static void InitLinkedList(struct TestFunctions **f, Test_FunctionPointer fp)
+{
+	*f = malloc(sizeof(struct TestFunctions));
+
+	(*f)->link = 0;
+	(*f)->pointToTest = fp;
+}
+
+static void AddTest(struct TestFunctions *f, Test_FunctionPointer fp)
+{
+	struct TestFunctions *newF = malloc(sizeof(struct TestFunctions));
+
+	newF->link = 0;
+	newF->pointToTest = fp;
+
+	for (int i = 0; i < 10; i++)
+	{
+		if (f->link == 0)
+		{
+			f->link = newF;
+			break;
+		}
+
+		f = f->link;
+	}
 }
 
 static TestInfo test_p16_0(void)
