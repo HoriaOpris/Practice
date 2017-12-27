@@ -16,12 +16,13 @@ static TestInfo test_p16_0(void);
 static TestInfo test_p16_1(void);
 static TestInfo test_p16_2(void);
 static void InitLinkedList(struct TestFunctions **f, Test_FunctionPointer fp);
+static enum testVerdict CalcTestVerdict(TestInfo info);
 
 struct TestFunctions *testF;
 
 int main(void)
 {
-	TestInfo test;
+	TestInfo testInfo;
 
 	InitLinkedList(&testF, test_p16_0);
 	AddTest(testF, test_p16_1);
@@ -33,18 +34,17 @@ int main(void)
 	{
 		if (testF != 0)
 		{
-			test = testF->pointToTest();
+			testInfo = testF->pointToTest();
 			testF = testF->link;
 
-			enum testVerdict verdict =
-					(test.expected == test.actual) ? PASSED : FAILED;
+			enum testVerdict verdict = CalcTestVerdict(testInfo);
 
-			printf("Test[%d]: %s", test.number, testVerdict[verdict]);
+			printf("Test[%d]: %s", testInfo.number, testVerdict[verdict]);
 
 			if (verdict == FAILED)
 			{
-				printf(", Expected: %d \t Actual: %d", test.expected,
-						test.actual);
+				printf(", Expected: %d \t Actual: %d", testInfo.expected,
+						testInfo.actual);
 			}
 
 			printf("\n");
@@ -58,6 +58,17 @@ int main(void)
 	return 0;
 }
 
+static enum testVerdict CalcTestVerdict(TestInfo info)
+{
+	enum testVerdict verdict;
+
+	if (info.expected == info.actual)
+		verdict = PASSED;
+	else
+		verdict = FAILED;
+
+	return verdict;
+}
 extern void AddTest(struct TestFunctions *f, Test_FunctionPointer fp)
 {
 	struct TestFunctions *newF = malloc(sizeof(struct TestFunctions));
