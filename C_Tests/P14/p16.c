@@ -14,13 +14,13 @@ static int CalculateSum(void);
 // storing result digits one byte at a time by doubling
 static int storedDigits[1000];
 
-extern int P16_GetSumOfTwosPower(void)
+extern int P16_GetSumOfTwosPower(int power)
 {
 	// 2^0
 	storedDigits[0] = 1;
 	storedDigits[1] = 't';
 
-	for (int i = 0; i < 1000; i++)
+	for (int i = 0; i < power; i++)
 	{
 		store();
 	}
