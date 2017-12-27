@@ -3,7 +3,8 @@
 
 enum testVerdict
 {
-	PASSED, FAILED
+	PASSED,
+	FAILED
 };
 
 struct testData
@@ -14,16 +15,17 @@ struct testData
 	int actual;
 };
 
-static const char *testVerdict[] =
-{ "Passed", "Failed" };
+static const char *testVerdict[] = { "Passed", "Failed" };
 
 static struct testData test_p16_0(void);
 static struct testData test_p16_1(void);
+static struct testData test_p16_2(void);
 
 struct testData (*fp[])(void) =
 {
 	test_p16_0,
-	test_p16_1
+	test_p16_1,
+	test_p16_2
 };
 
 int main(void)
@@ -50,8 +52,7 @@ int main(void)
 
 static struct testData test_p16_0(void)
 {
-	struct testData test =
-	{ .number = 0 };
+	struct testData test = { .number = 0 };
 
 	if (P16_GetSumOfTwosPower(1000) == 1366)
 		test.verdict = PASSED;
@@ -63,11 +64,25 @@ static struct testData test_p16_0(void)
 
 static struct testData test_p16_1(void)
 {
-	struct testData test =
-	{ .number = 1 };
+	struct testData test = { .number = 1 };
 
-	test.expected = 980;
+	test.expected = 1198;
 	test.actual = P16_GetSumOfTwosPower(900);
+
+	if (test.expected == test.actual)
+		test.verdict = PASSED;
+	else
+		test.verdict = FAILED;
+
+	return test;
+}
+
+static struct testData test_p16_2(void)
+{
+	struct testData test = { .number = 2 };
+
+	test.expected = 11;
+	test.actual = P16_GetSumOfTwosPower(7);
 
 	if (test.expected == test.actual)
 		test.verdict = PASSED;

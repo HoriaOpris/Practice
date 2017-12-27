@@ -16,6 +16,11 @@ static int storedDigits[1000];
 
 extern int P16_GetSumOfTwosPower(int power)
 {
+	for (int i = 0; i < ARR_SIZE(storedDigits); i++)
+	{
+		storedDigits[i] = 0;
+	}
+
 	// 2^0
 	storedDigits[0] = 1;
 	storedDigits[1] = 't';
