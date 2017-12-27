@@ -7,32 +7,22 @@
 #include "p16.h"
 #include "malloc.h"
 
-#define ARR_SIZE(arr) sizeof(arr) / sizeof(arr[0])
-
-static void MultiplyNumberBy(int rval);
-static int CalculateSum(void);
+static void MultiplyNumberBy(int *bigInteger, int rval);
+static int CalculateSum(int *bigInteger);
 static void IncrementTerminatorMarker(int *digit);
 static void InitBigInteger(int **bigInteger);
-
-// storing result digits one byte at a time by doubling
-static int storedDigits[1000];
 
 extern int P16_GetSumOfTwosPower(int power)
 {
 	int *bigInteger;
 	InitBigInteger(&bigInteger);
 
-	for (int i = 0; i < 1000; i++)
-	{
-		storedDigits[i] = bigInteger[i];
-	}
-
 	for (int i = 0; i < power; i++)
 	{
-		MultiplyNumberBy(2);
+		MultiplyNumberBy(bigInteger, 2);
 	}
 
-	return CalculateSum();
+	return CalculateSum(bigInteger);
 }
 
 static void InitBigInteger(int **bigInteger)
@@ -47,17 +37,17 @@ static void InitBigInteger(int **bigInteger)
 	(*bigInteger)[1] = 't';
 }
 
-static int CalculateSum(void)
+static int CalculateSum(int *bigInteger)
 {
 	int sum = 0;
 
-	for (int i = ARR_SIZE(storedDigits) - 1; i >= 0; i--)
+	for (int i = 1000 - 1; i >= 0; i--)
 	{
-		if (storedDigits[i] == 't')
+		if (bigInteger[i] == 't')
 		{
 			for (int j = i - 1; j >= 0; j--)
 			{
-				sum += storedDigits[j];
+				sum += bigInteger[j];
 			}
 
 			break;
@@ -67,25 +57,25 @@ static int CalculateSum(void)
 	return sum;
 }
 
-static void MultiplyNumberBy(int rval)
+static void MultiplyNumberBy(int *bigInteger, int rval)
 {
 	int carry = 0;
 
-	for (int i = 0; i < ARR_SIZE(storedDigits); i++)
+	for (int i = 0; i < 1000; i++)
 	{
 		// if not end of number
-		if (storedDigits[i] != 't')
+		if (bigInteger[i] != 't')
 		{
-			storedDigits[i] *= rval;
-			storedDigits[i] += carry;
+			bigInteger[i] *= rval;
+			bigInteger[i] += carry;
 			carry = 0;
 
-			if (storedDigits[i] > 9)
+			if (bigInteger[i] > 9)
 			{
-				storedDigits[i] %= 10;
+				bigInteger[i] %= 10;
 				carry = 1;
 
-				IncrementTerminatorMarker(&storedDigits[i + 1]);
+				IncrementTerminatorMarker(&bigInteger[i + 1]);
 			}
 		}
 		else
