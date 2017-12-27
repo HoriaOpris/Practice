@@ -6,98 +6,19 @@
 
 #include "p16.h"
 #include "utils/bigint.h"
-#include "malloc.h"
-
-typedef enum
-{
-	ADD,
-	MULTIPLY
-} Operation;
-
-static int CalculateSum(int *bigInteger);
-static void IncrementTerminatorMarker(int *digit);
-static void BigInt_Operation(Operation op, int *bigInteger, int rval);
 
 extern int P16_GetSumOfTwosPower(int power)
 {
+	int sum;
 	BigInt bigInteger;
+
 	BigInt_New(&bigInteger);
 
 	for (int i = 0; i < power; i++)
-	{
 		BigInt_Operation(MULTIPLY, bigInteger, 2);
-	}
 
-	//Todo free!!
-	return CalculateSum(bigInteger);
-}
-
-static int CalculateSum(int *bigInteger)
-{
-	int sum = 0;
-
-	for (int i = 1000 - 1; i >= 0; i--)
-	{
-		if (bigInteger[i] == 't')
-		{
-			for (int j = i - 1; j >= 0; j--)
-			{
-				sum += bigInteger[j];
-			}
-
-			break;
-		}
-	}
+	sum = BigInt_GetSumOfDigits(bigInteger);
+	BigInt_Free(bigInteger);
 
 	return sum;
-}
-
-static void BigInt_Operation(Operation op, int *bigInteger, int rval)
-{
-	int carry = 0;
-
-	for (int i = 0; i < 1000; i++)
-	{
-		// if not end of number
-		if (bigInteger[i] != 't')
-		{
-			switch (op)
-			{
-			case ADD:
-				bigInteger[i] += rval;
-				break;
-
-			case MULTIPLY:
-				bigInteger[i] *= rval;
-				break;
-
-			default:
-				break;
-			}
-
-			bigInteger[i] += carry;
-			carry = 0;
-
-			if (bigInteger[i] > 9)
-			{
-				bigInteger[i] %= 10;
-				carry = 1;
-
-				IncrementTerminatorMarker(&bigInteger[i + 1]);
-			}
-		}
-		else
-		{
-			break;
-		}
-	}
-}
-
-static void IncrementTerminatorMarker(int *digit)
-{
-	if (digit[0] == 't')
-	{
-		digit[0] = 0;
-		digit[1] = 't';
-	}
 }
