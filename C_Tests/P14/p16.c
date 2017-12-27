@@ -5,6 +5,7 @@
  * */
 
 #include "p16.h"
+#include "utils/bigint.h"
 #include "malloc.h"
 
 typedef enum
@@ -13,35 +14,22 @@ typedef enum
 	MULTIPLY
 } Operation;
 
-static void MultiplyNumberBy(int *bigInteger, int rval);
 static int CalculateSum(int *bigInteger);
 static void IncrementTerminatorMarker(int *digit);
-static void InitBigInteger(int **bigInteger);
 static void BigInt_Operation(Operation op, int *bigInteger, int rval);
 
 extern int P16_GetSumOfTwosPower(int power)
 {
-	int *bigInteger;
-	InitBigInteger(&bigInteger);
+	BigInt bigInteger;
+	BigInt_New(&bigInteger);
 
 	for (int i = 0; i < power; i++)
 	{
 		BigInt_Operation(MULTIPLY, bigInteger, 2);
 	}
 
+	//Todo free!!
 	return CalculateSum(bigInteger);
-}
-
-static void InitBigInteger(int **bigInteger)
-{
-	*bigInteger = malloc(1000 * sizeof(int));
-
-	for (int i = 0; i < 1000; i++)
-		(*bigInteger)[i] = 0;
-
-	// 2^0
-	(*bigInteger)[0] = 1;
-	(*bigInteger)[1] = 't';
 }
 
 static int CalculateSum(int *bigInteger)
