@@ -6,31 +6,24 @@
 
 static const char *testVerdict[] = { "Passed", "Failed" };
 
-struct TestFunctions
-{
-	Test_FunctionPointer pointToTest;
-	struct TestFunctions *link;
-};
-
 static TestInfo test_p16_0(void);
 static TestInfo test_p16_1(void);
 static TestInfo test_p16_2(void);
-
 static void InitLinkedList(struct TestFunctions **f, Test_FunctionPointer fp);
-static void AddTest(struct TestFunctions *f, Test_FunctionPointer fp);
 
-static Test_FunctionPointer fp[] = { test_p16_0, test_p16_1, test_p16_2 };
+struct TestFunctions *testF;
 
 int main(void)
 {
-	struct TestFunctions *testF;
 	TestInfo test;
 
 	InitLinkedList(&testF, test_p16_0);
 	AddTest(testF, test_p16_1);
 	AddTest(testF, test_p16_2);
 
-	for (int i = 0; i < 4; i++)
+	BigInt_Test();
+
+	while (1)
 	{
 		if (testF != 0)
 		{
@@ -56,15 +49,7 @@ int main(void)
 	return 0;
 }
 
-static void InitLinkedList(struct TestFunctions **f, Test_FunctionPointer fp)
-{
-	*f = malloc(sizeof(struct TestFunctions));
-
-	(*f)->link = 0;
-	(*f)->pointToTest = fp;
-}
-
-static void AddTest(struct TestFunctions *f, Test_FunctionPointer fp)
+extern void AddTest(struct TestFunctions *f, Test_FunctionPointer fp)
 {
 	struct TestFunctions *newF = malloc(sizeof(struct TestFunctions));
 
@@ -81,6 +66,14 @@ static void AddTest(struct TestFunctions *f, Test_FunctionPointer fp)
 
 		f = f->link;
 	}
+}
+
+static void InitLinkedList(struct TestFunctions **f, Test_FunctionPointer fp)
+{
+	*f = malloc(sizeof(struct TestFunctions));
+
+	(*f)->link = 0;
+	(*f)->pointToTest = fp;
 }
 
 static TestInfo test_p16_0(void)
