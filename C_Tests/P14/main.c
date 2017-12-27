@@ -1,67 +1,75 @@
 /* 2^15 = 32768 and the sum of its digits is 3 + 2 + 7 + 6 + 8 = 26.
- * What is the sum of the digits of the number 21000?
+ * What is the sum of the digits of the number 2^1000?
  *
  *
  * */
 #include <stdio.h>
-#include <math.h>
 
-static void printToFindPattern(void);
-static unsigned int getSumOfDigits(unsigned int number);
-static unsigned int getTwoToThePow(unsigned int power);
-static void itoa(long i, char* s);
-static char removeAsciiComponent(char asciiNo);
+#define ARR_SIZE(arr) sizeof(arr) / sizeof(arr[0])
+
+static void store(void);
+static void print(void);
+
+// storing result digits one byte at a time by doubling
+static int storedDigits[100];
 
 int main(void)
 {
-	printToFindPattern();
+	// 2^0
+	storedDigits[0] = 1;
+	storedDigits[1] = 't';
 
-	getSumOfDigits(4421);
+	for (int i = 0; i < 10; i++)
+	{
+		store();
+		print();
+		printf("\n");
+	}
 
 	return 0;
 }
 
-static void printToFindPattern(void)
+static void print(void)
 {
-	for (int i = 1; i < 20; i++)
-		printf("Number:%d \t Sum of digits:%d \n", getTwoToThePow(i),
-				getSumOfDigits(getTwoToThePow(i)));
+	for (int i = ARR_SIZE(storedDigits) - 1; i >= 0; i--)
+	{
+		if (storedDigits[i] != 't')
+			printf("%d ", storedDigits[i]);
+	}
 }
 
-static unsigned int getSumOfDigits(unsigned int number)
+static void store(void)
 {
-	char stringNo[20];
-	unsigned int sumOfDigits = 0;
+	int carry = 0;
 
-	itoa(number, stringNo);
+	for (int i = 0; i < ARR_SIZE(storedDigits); i++)
+	{
+		// if not end of
+		if (storedDigits[i] != 't')
+		{
+			storedDigits[i] *= 2;
+			storedDigits[i] += carry;
+			carry = 0;
 
-	for (int i = 0; i < 20; i++)
-		if (stringNo[i] != 0)
-			sumOfDigits += removeAsciiComponent(stringNo[i]);
+			if (storedDigits[i] > 9)
+			{
+				storedDigits[i] %= 10;
+				carry = 1;
+
+				if (storedDigits[i + 1] == 't')
+				{
+					storedDigits[i + 1] = 0;
+					storedDigits[i + 2] = 't';
+				}
+			}
+			else
+			{
+				//break;
+			}
+		}
 		else
+		{
 			break;
-
-	return sumOfDigits;
-}
-
-static char removeAsciiComponent(char asciiNo)
-{
-	const char asciiComponent = 48;
-
-	if (asciiNo >= asciiComponent)
-		asciiNo -= asciiComponent;
-	else
-		/* Todo @Horia: Error handling necessary? */
-
-		return asciiNo;
-}
-
-static void itoa(long i, char* s)
-{
-	sprintf(s, "%ld", i);
-}
-
-static unsigned int getTwoToThePow(unsigned int power)
-{
-	return pow(2, power);
+		}
+	}
 }
