@@ -4,6 +4,12 @@
 #include <stdio.h>
 #include <malloc.h>
 
+enum testVerdict
+{
+	PASSED,
+	FAILED
+};
+
 static const char *testVerdict[] = { "Passed", "Failed" };
 
 static TestInfo test_p16_0(void);
@@ -30,11 +36,14 @@ int main(void)
 			test = testF->pointToTest();
 			testF = testF->link;
 
-			printf("Test[%d]: %s", test.number, testVerdict[test.verdict]);
+			enum testVerdict verdict =
+					(test.expected == test.actual) ? PASSED : FAILED;
 
-			if (test.verdict == FAILED)
+			printf("Test[%d]: %s", test.number, testVerdict[verdict]);
+
+			if (verdict == FAILED)
 			{
-				printf(", Expected: %d \t Actual: %d \n", test.expected,
+				printf(", Expected: %d \t Actual: %d", test.expected,
 						test.actual);
 			}
 
@@ -80,10 +89,8 @@ static TestInfo test_p16_0(void)
 {
 	TestInfo test = { .number = 0 };
 
-	if (P16_GetSumOfTwosPower(1000) == 1366)
-		test.verdict = PASSED;
-	else
-		test.verdict = FAILED;
+	test.expected = 1366;
+	test.actual = P16_GetSumOfTwosPower(1000);
 
 	return test;
 }
@@ -95,11 +102,6 @@ static TestInfo test_p16_1(void)
 	test.expected = 1198;
 	test.actual = P16_GetSumOfTwosPower(900);
 
-	if (test.expected == test.actual)
-		test.verdict = PASSED;
-	else
-		test.verdict = FAILED;
-
 	return test;
 }
 
@@ -109,11 +111,6 @@ static TestInfo test_p16_2(void)
 
 	test.expected = 11;
 	test.actual = P16_GetSumOfTwosPower(7);
-
-	if (test.expected == test.actual)
-		test.verdict = PASSED;
-	else
-		test.verdict = FAILED;
 
 	return test;
 }

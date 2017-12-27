@@ -22,11 +22,6 @@ static TestInfo Test_0(void)
 	test.expected = 9;
 	test.actual = BigInt_GetSumOfDigits(bigInt);
 
-	if (test.expected == test.actual)
-		test.verdict = PASSED;
-	else
-		test.verdict = FAILED;
-
 	BigInt_Free(bigInt);
 
 	return test;
