@@ -1,1 +1,1 @@
-extern void P14_Init(void);
+extern int P16_GetSumOfTwosPower(void);

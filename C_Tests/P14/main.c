@@ -3,7 +3,7 @@
 
 int main(void)
 {
-	P14_Init();
+	printf("Sum = %d \n", P16_GetSumOfTwosPower());
 
 	return 0;
 }

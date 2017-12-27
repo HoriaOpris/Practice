@@ -5,17 +5,16 @@
  * */
 
 #include "p16.h"
-#include <stdio.h>
 
 #define ARR_SIZE(arr) sizeof(arr) / sizeof(arr[0])
 
 static void store(void);
-static void print(void);
+static int CalculateSum(void);
 
 // storing result digits one byte at a time by doubling
 static int storedDigits[1000];
 
-extern void P14_Init(void)
+extern int P16_GetSumOfTwosPower(void)
 {
 	// 2^0
 	storedDigits[0] = 1;
@@ -26,10 +25,10 @@ extern void P14_Init(void)
 		store();
 	}
 
-	print();
+	return CalculateSum();
 }
 
-static void print(void)
+static int CalculateSum(void)
 {
 	int sum = 0;
 
@@ -45,7 +44,7 @@ static void print(void)
 		}
 	}
 
-	printf("Sum: %d\n", sum);
+	return sum;
 }
 
 static void store(void)
