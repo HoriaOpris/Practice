@@ -1,4 +1,6 @@
 #include "p16.h"
+#include "test.h"
+#include "utils/bigint_test.h"
 #include <stdio.h>
 
 enum testVerdict
@@ -21,12 +23,7 @@ static struct testData test_p16_0(void);
 static struct testData test_p16_1(void);
 static struct testData test_p16_2(void);
 
-struct testData (*fp[])(void) =
-{
-	test_p16_0,
-	test_p16_1,
-	test_p16_2
-};
+Test_FunctionPointer fp[] = { test_p16_0, test_p16_1, test_p16_2 };
 
 int main(void)
 {
