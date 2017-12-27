@@ -11,7 +11,7 @@ static void store(void);
 static void print(void);
 
 // storing result digits one byte at a time by doubling
-static int storedDigits[100];
+static int storedDigits[1000];
 
 int main(void)
 {
@@ -19,23 +19,33 @@ int main(void)
 	storedDigits[0] = 1;
 	storedDigits[1] = 't';
 
-	for (int i = 0; i < 10; i++)
+	for (int i = 0; i < 1000; i++)
 	{
 		store();
-		print();
-		printf("\n");
 	}
+
+	print();
 
 	return 0;
 }
 
 static void print(void)
 {
+	int sum = 0;
+
 	for (int i = ARR_SIZE(storedDigits) - 1; i >= 0; i--)
 	{
-		if (storedDigits[i] != 't')
-			printf("%d ", storedDigits[i]);
+		if (storedDigits[i] == 't')
+		{
+			for (int j = i - 1; j >= 0; j--)
+			{
+				sum += storedDigits[j];
+			}
+			break;
+		}
 	}
+
+	printf("Sum: %d\n", sum);
 }
 
 static void store(void)
