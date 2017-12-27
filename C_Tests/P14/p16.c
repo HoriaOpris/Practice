@@ -7,10 +7,17 @@
 #include "p16.h"
 #include "malloc.h"
 
+typedef enum
+{
+	ADD,
+	MULTIPLY
+} Operation;
+
 static void MultiplyNumberBy(int *bigInteger, int rval);
 static int CalculateSum(int *bigInteger);
 static void IncrementTerminatorMarker(int *digit);
 static void InitBigInteger(int **bigInteger);
+static void BigInt_Operation(Operation op, int *bigInteger, int rval);
 
 extern int P16_GetSumOfTwosPower(int power)
 {
@@ -19,7 +26,7 @@ extern int P16_GetSumOfTwosPower(int power)
 
 	for (int i = 0; i < power; i++)
 	{
-		MultiplyNumberBy(bigInteger, 2);
+		BigInt_Operation(MULTIPLY, bigInteger, 2);
 	}
 
 	return CalculateSum(bigInteger);
@@ -57,7 +64,7 @@ static int CalculateSum(int *bigInteger)
 	return sum;
 }
 
-static void MultiplyNumberBy(int *bigInteger, int rval)
+static void BigInt_Operation(Operation op, int *bigInteger, int rval)
 {
 	int carry = 0;
 
@@ -66,7 +73,20 @@ static void MultiplyNumberBy(int *bigInteger, int rval)
 		// if not end of number
 		if (bigInteger[i] != 't')
 		{
-			bigInteger[i] *= rval;
+			switch (op)
+			{
+			case ADD:
+				bigInteger[i] += rval;
+				break;
+
+			case MULTIPLY:
+				bigInteger[i] *= rval;
+				break;
+
+			default:
+				break;
+			}
+
 			bigInteger[i] += carry;
 			carry = 0;
 
