@@ -3,31 +3,17 @@
 #include "utils/bigint_test.h"
 #include <stdio.h>
 
-enum testVerdict
-{
-	PASSED,
-	FAILED
-};
-
-struct testData
-{
-	int number;
-	enum testVerdict verdict;
-	int expected;
-	int actual;
-};
-
 static const char *testVerdict[] = { "Passed", "Failed" };
 
-static struct testData test_p16_0(void);
-static struct testData test_p16_1(void);
-static struct testData test_p16_2(void);
+static TestInfo test_p16_0(void);
+static TestInfo test_p16_1(void);
+static TestInfo test_p16_2(void);
 
 Test_FunctionPointer fp[] = { test_p16_0, test_p16_1, test_p16_2 };
 
 int main(void)
 {
-	struct testData test;
+	TestInfo test;
 
 	for (int i = 0; i < sizeof(fp) / sizeof(fp[0]); i++)
 	{
@@ -47,9 +33,9 @@ int main(void)
 	return 0;
 }
 
-static struct testData test_p16_0(void)
+static TestInfo test_p16_0(void)
 {
-	struct testData test = { .number = 0 };
+	TestInfo test = { .number = 0 };
 
 	if (P16_GetSumOfTwosPower(1000) == 1366)
 		test.verdict = PASSED;
@@ -59,9 +45,9 @@ static struct testData test_p16_0(void)
 	return test;
 }
 
-static struct testData test_p16_1(void)
+static TestInfo test_p16_1(void)
 {
-	struct testData test = { .number = 1 };
+	TestInfo test = { .number = 1 };
 
 	test.expected = 1198;
 	test.actual = P16_GetSumOfTwosPower(900);
@@ -74,9 +60,9 @@ static struct testData test_p16_1(void)
 	return test;
 }
 
-static struct testData test_p16_2(void)
+static TestInfo test_p16_2(void)
 {
-	struct testData test = { .number = 2 };
+	TestInfo test = { .number = 2 };
 
 	test.expected = 11;
 	test.actual = P16_GetSumOfTwosPower(7);
