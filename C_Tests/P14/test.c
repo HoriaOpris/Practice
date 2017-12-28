@@ -39,7 +39,7 @@ int main(void)
 
 			enum testVerdict verdict = CalcTestVerdict(testInfo);
 
-			printf("Test[%d]: %s", testInfo.number, testVerdict[verdict]);
+			printf("Test[%d]: %s", testInfo.id, testVerdict[verdict]);
 
 			if (verdict == FAILED)
 			{
@@ -98,7 +98,7 @@ static void InitLinkedList(struct TestFunctions **f, Test_FunctionPointer fp)
 
 static TestInfo test_p16_0(void)
 {
-	TestInfo test = { .number = 0 };
+	TestInfo test = { .id = 0 };
 
 	test.expected = 1366;
 	test.actual = P16_GetSumOfTwosPower(1000);
@@ -108,7 +108,7 @@ static TestInfo test_p16_0(void)
 
 static TestInfo test_p16_1(void)
 {
-	TestInfo test = { .number = 1 };
+	TestInfo test = { .id = 1 };
 
 	test.expected = 1198;
 	test.actual = P16_GetSumOfTwosPower(900);
@@ -118,7 +118,7 @@ static TestInfo test_p16_1(void)
 
 static TestInfo test_p16_2(void)
 {
-	TestInfo test = { .number = 2 };
+	TestInfo test = { .id = 2 };
 
 	test.expected = 11;
 	test.actual = P16_GetSumOfTwosPower(7);

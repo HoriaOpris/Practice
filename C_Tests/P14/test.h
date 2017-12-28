@@ -1,6 +1,6 @@
 typedef struct
 {
-	int number;
+	int id;
 	int expected;
 	int actual;
 } TestInfo;

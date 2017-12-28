@@ -11,7 +11,7 @@ extern void BigInt_Test(void)
 
 static TestInfo Test_0(void)
 {
-	TestInfo test = { .number = 3 };
+	TestInfo test = { .id = 3 };
 	BigInt bigInt;
 
 	BigInt_New(&bigInt);
