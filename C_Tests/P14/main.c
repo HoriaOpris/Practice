@@ -5,7 +5,7 @@
 int main(void)
 {
 	printf("Sum = %d \n", P16_GetSumOfTwosPower(1000));
-	printf("Isosceles build:%d\n", Iso_Init());
+	printf("Isoscel valid: %d\n", Iso_Init());
 
 	return 0;
 }

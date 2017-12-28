@@ -4,7 +4,7 @@ CXXFLAGS = -Wall -g -std=c99
 build: main.o p16.o bigint.o isosceles.o
 	$(CXX) $(CXXFLAGS) -o main main.o p16.o bigint.o isosceles.o
 	
-test: test.o p16.o bigint.o bigint_test.o
+build_test: test.o p16.o bigint.o bigint_test.o
 	$(CXX) $(CXXFLAGS) -o test test.o p16.o bigint.o bigint_test.o
 	
 main.o: main.c
