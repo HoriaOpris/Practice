@@ -1,13 +1,8 @@
-/*
- * incomplete.h
- *
- *  Created on: Apr 25, 2018
- *      Author: horia
- */
-
 #ifndef INCOMPLETE_H_
 #define INCOMPLETE_H_
 
-extern char *Test(void);
+typedef struct Calculator *CALC;
 
-#endif /* NCOMPLETE_H_ */
+extern void Init(CALC *c);
+
+#endif /* INCOMPLETE_H_ */
