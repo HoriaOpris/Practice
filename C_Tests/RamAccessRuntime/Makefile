@@ -1,5 +1,5 @@
 CXX = gcc
-CXXFLAGS = -Wall -g -std=c99
+CXXFLAGS = -Wall -g -std=c90
 
 all: main.o 
 	$(CXX) $(CXXFLAGS) -o main main.o
