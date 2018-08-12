@@ -1,4 +1,4 @@
-#include <stdio.h>
+/*#include <stdio.h>
 #include <time.h>
 #include <stdlib.h>
 
@@ -36,6 +36,18 @@ int main(void)
 	double time_spent = (double) (end - begin) / CLOCKS_PER_SEC;
 
 	printf("Time spent: %f \n", time_spent);
+
+	return 0;
+}
+*/
+
+int main(void)
+{
+	volatile int a = 10;
+	volatile int b = 20;
+
+	a = b + 12;
+	a = b * a;
 
 	return 0;
 }

@@ -20,7 +20,6 @@ extern void Init(CALC *c)
 
 	for (unsigned i = 0; i < MAX_SIZE; i++)
 		(*c)->byte[i] = 0;
-
 }
 
 extern void Push(CALC c, unsigned data)

@@ -33,6 +33,7 @@ struct triangle
 };
 
 static int IsTriangleValid(struct triangle t);
+static int AreAnglesConsistentWithSides(struct triangle t);
 
 extern int Iso_Init(void)
 {
@@ -59,4 +60,13 @@ static int IsTriangleValid(struct triangle t)
 		return 1;
 	else
 		return 0;
+}
+
+static int AreAnglesConsistentWithSides(struct triangle t)
+{
+	int consistent;
+	int halfBase = t.side.A / 2;
+
+	int h = sqrt(((t.side.C * t.side.C) - (halfBase * halfBase)));
+//find angle based on sine
 }
