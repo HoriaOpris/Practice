@@ -1,16 +1,5 @@
 #include "output.h"
 
-enum Day {
-	Monday,
-	Tuesday,
-	Wednesday,
-	Thursday,
-	Friday,
-	Saturday,
-	Sunday,
-	Number_of_days
-};
-
 enum Month {
 	January,
 	February,
@@ -27,23 +16,19 @@ enum Month {
 	Number_of_months
 };
 
-struct calendar {
-	unsigned day;
-	enum Day day_of_week;
-	enum Month month;
-};
-
 static enum Month MonthFromDayOfYear(unsigned day_of_year);
+static unsigned WeekDayFromDayOfYear(unsigned day_of_year);
 
-static struct calendar c;
-static const char *DAY[Number_of_days] = { "Monday", "Tuesday", "Wednesday",
-		"Thursday", "Friday", "Saturday", "Sunday" };
-static const char *MONTH[Number_of_months] = { "January", "February", "March",
-		"April", "May", "June", "July", "August", "September", "October",
-		"November", "December", };
+static const char *DAY[] = { "Monday", "Tuesday", "Wednesday", "Thursday",
+		"Friday", "Saturday", "Sunday" };
+static const char *MONTH[] =
+		{ "January", "February", "March", "April", "May", "June", "July",
+				"August", "September", "October", "November", "December", };
 
 int main(void) {
-	Output(8);
+	for (unsigned i = 0; i < 50; i++)
+		Out_WriteCalendarLine(i, DAY[WeekDayFromDayOfYear(i)],
+				MONTH[MonthFromDayOfYear(i)]);
 
 	return 0;
 }
