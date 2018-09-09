@@ -19,8 +19,11 @@ enum Month {
 
 static enum Month MonthFromDay(unsigned day);
 static unsigned WeekDayFromDay(unsigned day);
+static unsigned DayFromYear(unsigned year);
 static unsigned YearFromDay(unsigned day);
 
+static const unsigned DAYS_IN_YEAR = 365;
+static const unsigned FIRST_YEAR_IN_RECORD = 1512;
 static const char *DAY[] = { "Monday", "Tuesday", "Wednesday", "Thursday",
 		"Friday", "Saturday", "Sunday" };
 static const char *MONTH[] =
@@ -28,9 +31,11 @@ static const char *MONTH[] =
 				"August", "September", "October", "November", "December", };
 
 int main(int argc, char **argv) {
-	for (unsigned i = 0; i < 500; i++)
-		Out_WriteCalendarLine(i, DAY[WeekDayFromDay(i)], MONTH[MonthFromDay(i)],
-				YearFromDay(i));
+	const unsigned day = DayFromYear(In_ReadCalendarYear(argv));
+
+	for (unsigned i = day - DAYS_IN_YEAR; i < day + DAYS_IN_YEAR; i++)
+		Out_WriteCalendarLine(i % DAYS_IN_YEAR + 1, DAY[WeekDayFromDay(i)],
+				MONTH[MonthFromDay(i)], YearFromDay(i));
 
 	return 0;
 }
@@ -68,8 +73,14 @@ static enum Month MonthFromDay(unsigned day) {
 		return January; //TODO: Error handling
 }
 
+static unsigned DayFromYear(unsigned year) {
+	unsigned day = year - FIRST_YEAR_IN_RECORD;
+
+	return day * DAYS_IN_YEAR;
+}
+
 static unsigned YearFromDay(unsigned day) {
-	unsigned year = 1512;
+	unsigned year = FIRST_YEAR_IN_RECORD;
 
 	for (unsigned i = day; i > 0; i--) {
 		if (i % 364 == 0)
