@@ -35,22 +35,17 @@ struct calendar {
 
 static enum Month MonthFromDayOfYear(unsigned day_of_year);
 
-struct calendar c;
-const char *DAY[Number_of_days] = { "Monday", "Tuesday", "Wednesday",
+static struct calendar c;
+static const char *DAY[Number_of_days] = { "Monday", "Tuesday", "Wednesday",
 		"Thursday", "Friday", "Saturday", "Sunday" };
-const char *MONTH[Number_of_months] = { "January", "February", "March", "April",
-		"May", "June", "July", "August", "September", "October", "November",
-		"December", };
+static const char *MONTH[Number_of_months] = { "January", "February", "March",
+		"April", "May", "June", "July", "August", "September", "October",
+		"November", "December", };
 
 int main(void) {
+	printf("Day of the year:%d \n", 8);
 
-	c.day = 32;
-
-	printf("Day of the year:%d \n", c.day);
-	//calc day of week
-	c.day_of_week = c.day % (7 - 1);
-
-	printf("Day of Week: %s \n", DAY[c.day_of_week]);
+	printf("Day of Week: %s \n", DAY[WeekDayFromDayOfYear(8)]);
 	c.month = MonthFromDayOfYear(c.day);
 
 	//calc month
@@ -59,30 +54,34 @@ int main(void) {
 	return 0;
 }
 
+static unsigned WeekDayFromDayOfYear(unsigned day_of_year) {
+	return day_of_year % 7;
+}
+
 static enum Month MonthFromDayOfYear(unsigned day_of_year) {
-	if (day_of_year <= 31)
+	if (day_of_year <= 30)
 		return January;
-	else if ((day_of_year > 31) && (day_of_year <= 60))
+	else if ((day_of_year > 30) && (day_of_year <= 59))
 		return February;
-	else if ((day_of_year > 60) && (day_of_year <= 91))
+	else if ((day_of_year > 59) && (day_of_year <= 90))
 		return March;
-	else if ((day_of_year > 91) && (day_of_year <= 121))
+	else if ((day_of_year > 90) && (day_of_year <= 120))
 		return April;
-	else if ((day_of_year > 121) && (day_of_year <= 152))
+	else if ((day_of_year > 120) && (day_of_year <= 151))
 		return May;
-	else if ((day_of_year > 152) && (day_of_year <= 182))
+	else if ((day_of_year > 151) && (day_of_year <= 181))
 		return June;
-	else if ((day_of_year > 182) && (day_of_year <= 213))
+	else if ((day_of_year > 181) && (day_of_year <= 212))
 		return July;
-	else if ((day_of_year > 213) && (day_of_year <= 243))
+	else if ((day_of_year > 212) && (day_of_year <= 242))
 		return August;
-	else if ((day_of_year > 243) && (day_of_year <= 274))
+	else if ((day_of_year > 242) && (day_of_year <= 273))
 		return September;
-	else if ((day_of_year > 274) && (day_of_year <= 304))
+	else if ((day_of_year > 273) && (day_of_year <= 303))
 		return October;
-	else if ((day_of_year > 304) && (day_of_year <= 335))
+	else if ((day_of_year > 303) && (day_of_year <= 334))
 		return November;
-	else if ((day_of_year > 335) && (day_of_year <= 365))
+	else if ((day_of_year > 334) && (day_of_year <= 364))
 		return December;
 	else
 		return January; //TODO: Error handling
