@@ -1,4 +1,4 @@
-#include<stdio.h>
+#include "output.h"
 
 enum Day {
 	Monday,
@@ -43,13 +43,7 @@ static const char *MONTH[Number_of_months] = { "January", "February", "March",
 		"November", "December", };
 
 int main(void) {
-	printf("Day of the year:%d \n", 8);
-
-	printf("Day of Week: %s \n", DAY[WeekDayFromDayOfYear(8)]);
-	c.month = MonthFromDayOfYear(c.day);
-
-	//calc month
-	printf("Month: %s \n", MONTH[c.month]);
+	Output(8);
 
 	return 0;
 }
