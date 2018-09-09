@@ -1,4 +1,5 @@
 #include "output.h"
+#include "input.h"
 
 enum Month {
 	January,
@@ -26,7 +27,7 @@ static const char *MONTH[] =
 		{ "January", "February", "March", "April", "May", "June", "July",
 				"August", "September", "October", "November", "December", };
 
-int main(void) {
+int main(int argc, char **argv) {
 	for (unsigned i = 0; i < 500; i++)
 		Out_WriteCalendarLine(i, DAY[WeekDayFromDay(i)], MONTH[MonthFromDay(i)],
 				YearFromDay(i));
