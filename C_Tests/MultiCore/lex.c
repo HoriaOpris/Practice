@@ -8,6 +8,9 @@ What is the millionth lexicographic permutation of the digits 0, 1, 2, 3, 4, 5, 
 
 #include <stdio.h>
 #include <string.h>
+#include <malloc.h>
+
+#define ELEMENTS_IN(arr) (sizeof(arr) / sizeof(arr[0]))
 
 static unsigned digits[] = {0, 1, 2};
 
@@ -25,14 +28,14 @@ static unsigned PowerOfTen(unsigned power)
 		return 0;
 	}
 }
-/*
+
 static unsigned Factorial(unsigned n)
 {
-if (n == 1)
-return 1;
-else
-return n * Factorial(n - 1);
-}*/
+	if (n == 1)
+		return 1;
+	else
+		return n * Factorial(n - 1);
+}
 
 static void Switch(unsigned *buf, unsigned pos_from, unsigned pos_with)
 {
@@ -56,17 +59,18 @@ static unsigned ArrayToNumber(unsigned *buf, unsigned size)
 
 int main(void)
 {
-	unsigned a[3], b[3], c[3];
+	/* Create array that holds all possible combinations 1 digit per unsigned int (4 bytes) */
+	unsigned(*a)[ELEMENTS_IN(digits)] = malloc(Factorial(ELEMENTS_IN(digits)) * sizeof(digits));
 
-	memcpy(a, digits, sizeof(a));
-	memcpy(b, a, sizeof(a));
-	Switch(b, 2, 1);
+	memcpy(&a[0][0], digits, sizeof(digits));
 
-	memcpy(c, b, sizeof(a));
-	Switch(c, 1, 2);
+	for (unsigned i = 0; i < Factorial(ELEMENTS_IN(digits)); i++)
+	{
+		memcpy(a[i + 1], a[i], 12);
+		Switch(a[i + 1], i % 2, (i % 2) + 1);
 
-	printf("%d ", ArrayToNumber(b, sizeof(b) / sizeof(b[0])));
-	printf("%d ", ArrayToNumber(c, sizeof(c) / sizeof(c[0])));
+		printf("%d ", ArrayToNumber(&a[i][0], ELEMENTS_IN(digits)));
+	}
 
 	return 0;
 }
