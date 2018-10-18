@@ -7,8 +7,9 @@ What is the millionth lexicographic permutation of the digits 0, 1, 2, 3, 4, 5, 
 */
 
 #include <stdio.h>
+#include <string.h>
 
-static unsigned digits[] = {3, 1, 2};
+static unsigned digits[] = {0, 1, 2};
 
 static unsigned PowerOfTen(unsigned power)
 {
@@ -24,24 +25,48 @@ static unsigned PowerOfTen(unsigned power)
 		return 0;
 	}
 }
-
+/*
 static unsigned Factorial(unsigned n)
 {
-	if (n == 1)
-		return 1;
-	else
-		return n * Factorial(n - 1);
+if (n == 1)
+return 1;
+else
+return n * Factorial(n - 1);
+}*/
+
+static void Switch(unsigned *buf, unsigned pos_from, unsigned pos_with)
+{
+	unsigned temp = buf[pos_from];
+
+	buf[pos_from] = buf[pos_with];
+	buf[pos_with] = temp;
 }
 
-void main(void)
+static unsigned ArrayToNumber(unsigned *buf, unsigned size)
 {
-	unsigned res[6] = {0};
+	unsigned converted = 0;
 
-	for (unsigned j = 0; j < Factorial(3); j++)
-		for (unsigned i = 0; i < 3; i++)
-		{
-			res[j] += digits[i] * PowerOfTen(i);
-		}
+	for (unsigned i = 0; i < size; i++)
+	{
+		converted += buf[i] * PowerOfTen(i);
+	}
 
-	printf("%d %d %d %d %d %d\n", res[0], res[1], res[2], res[3], res[4], res[5]);
+	return converted;
+}
+
+int main(void)
+{
+	unsigned a[3], b[3], c[3];
+
+	memcpy(a, digits, sizeof(a));
+	memcpy(b, a, sizeof(a));
+	Switch(b, 2, 1);
+
+	memcpy(c, b, sizeof(a));
+	Switch(c, 1, 2);
+
+	printf("%d ", ArrayToNumber(b, sizeof(b) / sizeof(b[0])));
+	printf("%d ", ArrayToNumber(c, sizeof(c) / sizeof(c[0])));
+
+	return 0;
 }
