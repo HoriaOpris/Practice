@@ -1,5 +1,6 @@
-#include<stdio.h>
-#include<stdlib.h>
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
 #define ASCII_NORM 48u
 
 //input line 1 number of items. line 2 space separated item color
@@ -8,7 +9,7 @@
 struct in
 {
     unsigned items;
-    unsigned *color;//array the size of items 
+    unsigned *color; //array the size of items
 };
 
 static struct in InputGet(void)
@@ -16,22 +17,22 @@ static struct in InputGet(void)
     struct in input;
     char line[1024];
     scanf("%d\n", &input.items);
-    
+
     input.color = malloc(sizeof(int) * input.items);
 
     char *str = fgets(line, 1024, stdin);
     unsigned item_no = 0;
     unsigned i = 0;
     //items are separated by space. loop and store items as separate array input
-    while(1)
+    while (1)
     {
-        if(str[i] == ' ' || str[i] == '\n')
+        if (str[i] == ' ' || str[i] == '\n')
         {
             input.color[item_no] = str[i - 1] - ASCII_NORM;
             item_no++;
         }
 
-        if(str[i] == '\n')
+        if (str[i] == '\n')
         {
             break;
         }
@@ -44,15 +45,43 @@ static struct in InputGet(void)
     return input;
 }
 
-int main (void)
+static void Pairs(struct in *input)
+{
+    int colors[10][3];
+
+    unsigned last_empty = 0;
+    (void)memset(colors, 0, sizeof(colors));
+
+    for (unsigned i = 0; i < input->items; i++)
+    {
+        for (unsigned j = 0; j < 10; j++)
+        {
+            if (colors[j][0] == input->color[i])
+            {
+                colors[j][1]++;
+                break;
+            }
+
+            if (j == 9)
+            {
+                colors[last_empty][0] = input->color[i];
+                colors[last_empty][1] = 1;
+                last_empty++;
+            }
+        }
+    }
+
+    for (unsigned i = 0; i < 10; i++)
+        printf("%d ", colors[i][1]);
+
+    printf("\n");
+}
+
+int main(void)
 {
     struct in input = InputGet();
 
-    printf("\n----\n");
-    for(unsigned i = 0; i < input.items; i++)
-    {
-        printf(" %d",input.color[i]);
-    }
+    Pairs(&input);
 
     return 0;
 }
