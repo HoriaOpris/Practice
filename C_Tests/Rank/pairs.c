@@ -70,11 +70,22 @@ static void Pairs(struct in *input)
             }
         }
     }
+    //calc pairs
+    for(unsigned i = 0; i < 10; i++)
+    {
+        while((colors[i][1] / 2) != 0)
+        {
+            colors[i][1] = colors[i][1] / 2;
+            colors[i][2]++;
+        }
+    }
 
     for (unsigned i = 0; i < 10; i++)
-        printf("%d ", colors[i][1]);
+        printf("%d ", colors[i][2]);
 
     printf("\n");
+
+
 }
 
 int main(void)
