@@ -34,19 +34,49 @@ unsigned Size(struct list *l)
     return size;
 }
 
+void Rem(struct list *l)
+{
+    struct list *p = l;
+
+    for (unsigned i = 0; i < Size(l) - 2; i++)
+        p = p->next;
+
+    p->next = NULL;
+}
+
 int main(void)
 {
     struct list l = {.data = 0, .next = NULL};
+    char input;
+    unsigned cnt = 3;
 
-    Add(&l, 1);
-    Add(&l, 2);
-    Add(&l, 3);
-
-    struct list *p = &l;
-
-    for (unsigned i = 0; i < Size(&l); i++)
+    do
     {
-        printf("data:%d pointer:%x\n", p->data, (unsigned)p->next);
-        p = p->next;
-    }
+        printf("\nEnter + or - or p: ");
+        scanf("%c", &input);
+
+        if (input == '+')
+        {
+            Add(&l, cnt);
+            cnt++;
+        }
+
+        if (input == '-')
+        {
+            Rem(&l);
+        }
+
+        if (input == 'p')
+        {
+            struct list *p = &l;
+
+            printf("\n---\n");
+            for (unsigned i = 0; i < Size(&l); i++)
+            {
+                printf("data:%d pointer:%x\n", p->data, (unsigned)p->next);
+                p = p->next;
+            }
+        }
+
+    } while (input != 'q');
 }
