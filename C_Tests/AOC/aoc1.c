@@ -1,5 +1,4 @@
 #include <stdio.h>
-#include <time.h>
 
 #define ARR_SIZE(arr) sizeof(arr) / sizeof(arr[0])
 
@@ -27,37 +26,47 @@ static void Sort(unsigned *arr, unsigned size)
 }
 
 static unsigned GetPairMultiplication(unsigned *arr, unsigned size)
-{ //brute force
-    unsigned multiplied = 0;
+{
+    unsigned tempVal;
+    unsigned tempID = 0;
+    unsigned value1 = 0;
+    unsigned value2 = 0;
 
-    for (unsigned i = 0; i < size; i++)
+    for (unsigned i = size; i > 0; i--)
     {
-        for (unsigned j = 0; j < size; j++)
+        value1 = arr[i];
+        tempVal = 2020 - arr[i];
+
+        for (unsigned j = tempID; j < size; j++)
         {
-            if ((arr[i] + arr[j]) == 2020)
+            if (tempVal > arr[j])
             {
-                multiplied = arr[i] * arr[j];
+                /*Do nothing, go to next index*/
+            }
+            else if (tempVal == arr[j])
+            {
+                value2 = arr[j];
+                break;
+            }
+            else
+            {
+                tempID = j;
                 break;
             }
         }
+        if (value1 + value2 == 2020)
+        {
+            break;
+        }
     }
 
-    return multiplied;
+    return value1 * value2;
 }
 
 int main(void)
 {
-    double time_spent = 0.0;
-    clock_t begin = clock();
-
     Sort(input, ARR_SIZE(input));
-
     printf("Mutliplied: %d\n", GetPairMultiplication(input, ARR_SIZE(input)));
-
-    clock_t end = clock();
-    time_spent = (double)(end - begin) / CLOCKS_PER_SEC;
-
-    printf("It took your program %f to run\n", time_spent);
 
     return 0;
 }
