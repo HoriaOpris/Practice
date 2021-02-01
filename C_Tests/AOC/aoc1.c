@@ -10,30 +10,19 @@ static unsigned input[] = {
 //Bubble
 static void Sort(unsigned *arr, unsigned size)
 {
-    while (1)
+    unsigned swap;
+
+    for (unsigned i = 0; i < size - 1; i++)
     {
-        unsigned count;
-
-        for (unsigned i = 0; i < size - 1; i++)
+        for (unsigned j = 0; j < size - i - 1; j++)
         {
-            unsigned temp;
-
-            if (arr[i] > arr[i + 1])
+            if (arr[j] > arr[j + 1])
             {
-                temp = arr[i];
-                arr[i] = arr[i + 1];
-                arr[i + 1] = temp;
-            }
-            else
-            {
-                count++;
+                swap = arr[j];
+                arr[j] = arr[j + 1];
+                arr[j + 1] = swap;
             }
         }
-
-        if (count == (size - 1))
-            break;
-        else
-            count = 0;
     }
 }
 
