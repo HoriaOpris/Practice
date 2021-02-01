@@ -1,4 +1,7 @@
 #include<stdio.h>
+#include <stdlib.h>
+
+#define ARR_SIZE(arr) sizeof(arr) / sizeof(arr[0])
 
 static unsigned input[] = {
     #include"input.txt"
@@ -6,7 +9,10 @@ static unsigned input[] = {
 
 static unsigned *Sort(unsigned *arr, unsigned size)
 {
-    return (unsigned *)0;
+    unsigned *sorted = malloc(size);
+
+
+    return sorted;
 }
 
 static unsigned GetPairMultiplication(unsigned *arr, unsigned size)
@@ -16,10 +22,10 @@ static unsigned GetPairMultiplication(unsigned *arr, unsigned size)
 
 int main(void)
 {
+    unsigned *sorted = Sort(input, ARR_SIZE(input));
 
-
-    for(unsigned i = 0; i < sizeof(input) / sizeof(input[0]); i++)
-        printf("%d\n", input[i]);
+    for(unsigned i = 0; i < ARR_SIZE(input); i++)
+        printf("%d\n", sorted[i]);
 
     return 0;
 }
