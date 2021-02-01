@@ -37,16 +37,29 @@ static void Sort(unsigned *arr, unsigned size)
 }
 
 static unsigned GetPairMultiplication(unsigned *arr, unsigned size)
-{
-    return 0;
+{//brute force
+    unsigned multiplied = 0;
+    
+    for(unsigned i = 0; i < size; i++)
+    {
+        for(unsigned j = 0; j < size; j++)
+        {
+            if((arr[i] + arr[j]) == 2020)
+            {
+                multiplied = arr[i] * arr[j];
+                break;
+            }
+        }
+    }
+
+    return multiplied;
 }
 
 int main(void)
 {
     Sort(input, ARR_SIZE(input));
 
-    for (unsigned i = 0; i < ARR_SIZE(input); i++)
-        printf("%d\n", input[i]);
+    printf("Mutliplied: %d\n", GetPairMultiplication(input, ARR_SIZE(input)));
 
     return 0;
 }
