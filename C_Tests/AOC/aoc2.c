@@ -1,5 +1,7 @@
 //how many different ways can a number be written as a sum of at least 2 integers
 #include <stdio.h>
+#include "common.h"
+
 static unsigned ways[10][10];
 
 int main(void)
@@ -41,6 +43,12 @@ int main(void)
             }
         }
     }
+
+    for(unsigned i = 0; i < valid; i++)
+    {
+        Sort(&ways[i][0], 10);
+    }
+    
 
     for(unsigned i = 0; i < valid; i++)
     {
