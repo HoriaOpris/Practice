@@ -1,29 +1,11 @@
 #include <stdio.h>
+#include "common.h"
 
 #define ARR_SIZE(arr) sizeof(arr) / sizeof(arr[0])
 
 static unsigned input[] = {
 #include "input.txt"
 };
-
-//Bubble
-static void Sort(unsigned *arr, unsigned size)
-{
-    unsigned swap;
-
-    for (unsigned i = 0; i < size - 1; i++)
-    {
-        for (unsigned j = 0; j < size - i - 1; j++)
-        {
-            if (arr[j] > arr[j + 1])
-            {
-                swap = arr[j];
-                arr[j] = arr[j + 1];
-                arr[j + 1] = swap;
-            }
-        }
-    }
-}
 
 static unsigned GetPairMultiplication(unsigned *arr, unsigned size)
 {
