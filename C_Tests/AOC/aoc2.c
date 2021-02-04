@@ -2,22 +2,25 @@
 #include <stdio.h>
 #include "common.h"
 
-static unsigned ways[10][10];
+#define COL_SIZE 10
+#define ROW_SIZE 10
+
+static unsigned ways[COL_SIZE][ROW_SIZE];
 
 static void RemoveDuplicates(void)
 {
     unsigned cnt = 0;
 
-    for (unsigned i = 0; i < 10; i++)
+    for (unsigned i = 0; i < COL_SIZE; i++)
     {
-        for (unsigned j = 0; j < 10; j++)
+        for (unsigned j = 0; j < COL_SIZE; j++)
         {
             cnt = 0;
 
             if (i == j)
                 continue;
 
-            for (unsigned k = 0; k < 10; k++)
+            for (unsigned k = 0; k < ROW_SIZE; k++)
             {
                 if (ways[i][k] == ways[j][k])
                 {
@@ -26,15 +29,34 @@ static void RemoveDuplicates(void)
             }
 
             //delete line
-            if (cnt == 10)
+            if (cnt == ROW_SIZE)
             {
-                for (unsigned l = 0; l < 10; l++)
+                for (unsigned l = 0; l < ROW_SIZE; l++)
                 {
                     ways[j][l] = 0;
                 }
             }
         }
     }
+}
+
+static unsigned CountWays(void)
+{
+    unsigned ways_count = 0;
+    
+    for(unsigned i = 0; i < COL_SIZE; i++)
+    {
+        for(unsigned j = 0; j < ROW_SIZE; j++)
+        {
+            if(ways[i][j] != 0)
+            {
+                ways_count++;
+                break;
+            }
+        }
+    }
+    
+    return ways_count;
 }
 
 int main(void)
@@ -58,7 +80,7 @@ int main(void)
             {
                 if (sum > number)
                 {
-                    for(unsigned k = 0; k < 10; k++)
+                    for(unsigned k = 0; k < ROW_SIZE; k++)
                         ways[valid][k] = 0;
                         break;
                 }
@@ -80,14 +102,15 @@ int main(void)
 
     for (unsigned i = 0; i < valid; i++)
     {
-        Sort(&ways[i][0], 10);
+        Sort(&ways[i][0], ROW_SIZE);
     }
 
     RemoveDuplicates();
+    printf("Ways: %d \n", CountWays());
     
     for (unsigned i = 0; i < valid; i++)
     {
-        for (unsigned j = 0; j < 10; j++)
+        for (unsigned j = 0; j < ROW_SIZE; j++)
         {
             printf("%d ", ways[i][j]);
         }
