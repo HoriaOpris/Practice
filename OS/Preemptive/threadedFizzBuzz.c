@@ -27,6 +27,8 @@ Thread D will call number() which should only output the numbers.
 #include <stdlib.h>
 #include <pthread.h>
 
+static const unsigned fizzBuzzSize = 15;
+
 static void FizzBuzz(unsigned n)
 {
     for (unsigned i = 1; i <= n; i++)
@@ -77,11 +79,13 @@ static void *number()
     return NULL;
 }
 
+/* gcc threadedFizzBuzz.c -Wall -lpthread */
 int main(void)
 {
-    printf("Single threaded fizzbuzz:\n");
-    FizzBuzz(15);
+    printf("\nSingle threaded fizzbuzz:\n");
+    FizzBuzz(fizzBuzzSize);
 
+    printf("\nMultithreaded fizzbuzz:\n");
     pthread_t threads[4];
     //pthread_mutex_init(&mutex, NULL);
 
@@ -95,5 +99,6 @@ int main(void)
     pthread_join(threads[2], NULL);
     pthread_join(threads[3], NULL);
 
+    printf("\n\n");
     return 0;
 }
