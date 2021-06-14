@@ -26,17 +26,20 @@ Thread D will call number() which should only output the numbers.
 #include <stdio.h>
 #include <stdlib.h>
 #include <pthread.h>
+#include <stdatomic.h>
 
 static const unsigned fizzBuzzSize = 15;
+pthread_mutex_t mutex0;
+pthread_mutex_t mutex1;
+pthread_mutex_t mutex2;
+pthread_mutex_t mutex3;
 
 static void FizzBuzz(unsigned n)
 {
     for (unsigned i = 1; i <= n; i++)
     {
         if ((i % 3) == 0)
-        {
             printf("fizz");
-        }
 
         if ((i % 5) == 0)
             printf("buzz");
@@ -51,30 +54,84 @@ static void FizzBuzz(unsigned n)
     }
 }
 
+static void WaitToSync(unsigned thread, pthread_mutex_t *mutex, unsigned n)
+{
+    volatile _Atomic static unsigned index[4];
+    volatile unsigned min, min_index;
+
+    pthread_mutex_lock(mutex);
+    index[thread] = n;
+    pthread_mutex_unlock(mutex);
+SPIN:
+    min = index[0];
+    min_index = 0;
+
+    for (unsigned i = 1; i < 4; i++)
+    {
+        pthread_mutex_lock(mutex);
+        if (index[i] < min)
+        {
+            min = index[i];
+            min_index = i;
+        }
+        pthread_mutex_unlock(mutex);
+    }
+
+    if((index[0] == index[1]) && (index[0] == index[2]) && (index[0] == index[3]) && (index[0] == 15))
+        return;
+
+    if (min_index != thread)
+        goto SPIN;
+    //else
+        //printf("   thread %d | %d %d %d %d\n", thread, index[0], index[1], index[2], index[3]);
+}
+
 static void *fizz()
 {
-    printf("1");
+    for (unsigned i = 1; i <= fizzBuzzSize; i++)
+    {
+        WaitToSync(0, &mutex0, i);
+
+        if ((i % 3) == 0)
+            printf("fizz, ");
+    }
 
     return NULL;
 }
 
 static void *buzz()
 {
-    printf("2");
+    for (unsigned i = 1; i <= fizzBuzzSize; i++)
+    {
+        WaitToSync(1, &mutex0, i);
 
+        if ((i % 5) == 0)
+            printf("buzz, ");
+    }
     return NULL;
 }
 
 static void *fizzbuzz()
 {
-    printf("3");
+    for (unsigned i = 1; i <= fizzBuzzSize; i++)
+    {
+        WaitToSync(2, &mutex0, i);
+
+        if (((i % 3) == 0) && ((i % 5) == 0))
+            printf("fizzbuzz, ");
+    }
 
     return NULL;
 }
 
 static void *number()
 {
-    printf("4");
+    for (unsigned i = 1; i <= fizzBuzzSize; i++)
+    {
+        WaitToSync(3, &mutex0, i);
+        if (((i % 3) != 0) && ((i % 5) != 0))
+            printf("%d, ", i);
+    }
 
     return NULL;
 }
@@ -87,7 +144,11 @@ int main(void)
 
     printf("\nMultithreaded fizzbuzz:\n");
     pthread_t threads[4];
-    //pthread_mutex_init(&mutex, NULL);
+
+    pthread_mutex_init(&mutex0, NULL);
+    pthread_mutex_init(&mutex1, NULL);
+    pthread_mutex_init(&mutex2, NULL);
+    pthread_mutex_init(&mutex3, NULL);
 
     pthread_create(&threads[0], NULL, fizz, (void *)0);
     pthread_create(&threads[1], NULL, buzz, (void *)1);
