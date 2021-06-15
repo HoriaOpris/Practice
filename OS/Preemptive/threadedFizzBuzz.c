@@ -92,7 +92,7 @@ static void *fizz()
     {
         WaitToSync(0, &mutex0, i);
 
-        if ((i % 3) == 0)
+        if (((i % 3) == 0) && ((i % 5) != 0))
             printf("fizz, ");
     }
 
@@ -105,7 +105,7 @@ static void *buzz()
     {
         WaitToSync(1, &mutex0, i);
 
-        if ((i % 5) == 0)
+        if (((i % 5) == 0) && ((i % 3) != 0))
             printf("buzz, ");
     }
     return NULL;
