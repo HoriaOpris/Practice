@@ -77,13 +77,13 @@ SPIN:
         pthread_mutex_unlock(mutex);
     }
 
-    if((index[0] == index[1]) && (index[0] == index[2]) && (index[0] == index[3]) && (index[0] == 15))
+    if ((index[0] == index[1]) && (index[0] == index[2]) && (index[0] == index[3]) && (index[0] == 15))
         return;
 
     if (min_index != thread)
         goto SPIN;
     //else
-        //printf("   thread %d | %d %d %d %d\n", thread, index[0], index[1], index[2], index[3]);
+    //printf("   thread %d | %d %d %d %d\n", thread, index[0], index[1], index[2], index[3]);
 }
 
 static void *fizz()
@@ -139,16 +139,18 @@ static void *number()
 /* gcc threadedFizzBuzz.c -Wall -lpthread */
 int main(void)
 {
-    printf("\nSingle threaded fizzbuzz:\n");
+    printf("\nSinglethreaded fizzbuzz:\n");
+    clock_t begin = clock();
     FizzBuzz(fizzBuzzSize);
+    clock_t end = clock();
+    double executionTime = (double)(end - begin);
+    printf("Singlethreaded execution time: %f microseconds", executionTime);
 
     printf("\nMultithreaded fizzbuzz:\n");
+    begin = clock();
     pthread_t threads[4];
 
     pthread_mutex_init(&mutex0, NULL);
-    pthread_mutex_init(&mutex1, NULL);
-    pthread_mutex_init(&mutex2, NULL);
-    pthread_mutex_init(&mutex3, NULL);
 
     pthread_create(&threads[0], NULL, fizz, (void *)0);
     pthread_create(&threads[1], NULL, buzz, (void *)1);
@@ -160,6 +162,10 @@ int main(void)
     pthread_join(threads[2], NULL);
     pthread_join(threads[3], NULL);
 
+    end = clock();
+    executionTime = (double)(end - begin);
+    printf("Multithreaded execution time: %f microseconds", executionTime);
     printf("\n\n");
+    
     return 0;
 }
