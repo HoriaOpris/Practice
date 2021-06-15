@@ -30,9 +30,8 @@ Thread D will call number() which should only output the numbers.
 
 static const unsigned fizzBuzzSize = 15;
 pthread_mutex_t mutex0;
-pthread_mutex_t mutex1;
-pthread_mutex_t mutex2;
-pthread_mutex_t mutex3;
+
+unsigned *p1, *p2, *p3, *p4;
 
 static void FizzBuzz(unsigned n)
 {
@@ -54,46 +53,14 @@ static void FizzBuzz(unsigned n)
     }
 }
 
-static void WaitToSync(unsigned thread, pthread_mutex_t *mutex, unsigned n)
-{
-    volatile _Atomic static unsigned index[4];
-    volatile unsigned min, min_index;
-
-    pthread_mutex_lock(mutex);
-    index[thread] = n;
-    pthread_mutex_unlock(mutex);
-SPIN:
-    min = index[0];
-    min_index = 0;
-
-    for (unsigned i = 1; i < 4; i++)
-    {
-        pthread_mutex_lock(mutex);
-        if (index[i] < min)
-        {
-            min = index[i];
-            min_index = i;
-        }
-        pthread_mutex_unlock(mutex);
-    }
-
-    if ((index[0] == index[1]) && (index[0] == index[2]) && (index[0] == index[3]) && (index[0] == 15))
-        return;
-
-    if (min_index != thread)
-        goto SPIN;
-    //else
-    //printf("   thread %d | %d %d %d %d\n", thread, index[0], index[1], index[2], index[3]);
-}
-
 static void *fizz()
 {
+    p1 = malloc(sizeof(unsigned) * fizzBuzzSize);
+
     for (unsigned i = 1; i <= fizzBuzzSize; i++)
     {
-        WaitToSync(0, &mutex0, i);
-
         if (((i % 3) == 0) && ((i % 5) != 0))
-            printf("fizz, ");
+            p1[i - 1] = 100;
     }
 
     return NULL;
@@ -101,24 +68,25 @@ static void *fizz()
 
 static void *buzz()
 {
+    p2 = malloc(sizeof(unsigned) * fizzBuzzSize);
+
     for (unsigned i = 1; i <= fizzBuzzSize; i++)
     {
-        WaitToSync(1, &mutex0, i);
-
         if (((i % 5) == 0) && ((i % 3) != 0))
-            printf("buzz, ");
+            p2[i - 1] = 200;
     }
+
     return NULL;
 }
 
 static void *fizzbuzz()
 {
+    p3 = malloc(sizeof(unsigned) * fizzBuzzSize);
+
     for (unsigned i = 1; i <= fizzBuzzSize; i++)
     {
-        WaitToSync(2, &mutex0, i);
-
         if (((i % 3) == 0) && ((i % 5) == 0))
-            printf("fizzbuzz, ");
+            p3[i - 1] = 300;
     }
 
     return NULL;
@@ -126,11 +94,12 @@ static void *fizzbuzz()
 
 static void *number()
 {
+    p4 = malloc(sizeof(unsigned) * fizzBuzzSize);
+
     for (unsigned i = 1; i <= fizzBuzzSize; i++)
     {
-        WaitToSync(3, &mutex0, i);
         if (((i % 3) != 0) && ((i % 5) != 0))
-            printf("%d, ", i);
+            p4[i - 1] = 400;
     }
 
     return NULL;
@@ -162,10 +131,25 @@ int main(void)
     pthread_join(threads[2], NULL);
     pthread_join(threads[3], NULL);
 
+    for(unsigned i = 0; i < fizzBuzzSize; i++)
+    {
+        if(p1[i] == 100 && p2[i] != 200)
+            printf("fizz, ");
+
+        if(p2[i] == 200 && p1[i] != 100)
+            printf("buzz, ");
+        
+        if(p3[i] == 300)
+            printf("fizzbuzz, ");
+
+        if(p4[i] == 400)
+            printf("%d, ",i + 1);
+    }
+
     end = clock();
     executionTime = (double)(end - begin);
     printf("Multithreaded execution time: %f microseconds", executionTime);
     printf("\n\n");
-    
+
     return 0;
 }
