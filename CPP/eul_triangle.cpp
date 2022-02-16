@@ -62,39 +62,48 @@ int Sum(int arr[], int size)
     return sum;
 }
 
+void InitPath(int arrOut[], int arrPath[], int arrVals[][4])
+{
+    for(unsigned i = 0; i < 4; i++)
+    {
+        arrOut[i] = arrVals[i][arrPath[i]];
+    }
+}
+
 int main (void)
 {
-    int a[4] = {0};
+    int path[4] = {0};
     bool was_changed[4] = {0};
     
-    while(1)
+    while(path[0] == 0)
     {
-        int b[4] = {v[0][a[0]], v[1][a[1]], v[2][a[2]], v[3][a[3]]};
+        int out[4]; //= {v[0][a[0]], v[1][a[1]], v[2][a[2]], v[3][a[3]]};
+        InitPath(out, path, v);
         
-        std::cout<<a[0]<<a[1]<<a[2]<<a[3]<<"\t"<<Sum(b, 4)<<std::endl;
+        std::cout<<path[0]<<path[1]<<path[2]<<path[3]<<"\t"<<Sum(out, 4)<<std::endl;
         
         for(auto j = 3; j >= 0; j--)
         {
             if(was_changed[j] == false)
             {
-                if(((a[j] + 1) - a[j-1]) > 1)
+                if(((path[j] + 1) - path[j-1]) > 1)
                 {
                     was_changed[j] = false;
-                    a[j]--;
+                    path[j]--;
                 }
                 else
                 {
                     was_changed[j] = true;
                     
-                    if(a[j] == 0)
+                    if(path[j] == 0)
                     {
                         for(auto k = j + 1; k < 4; k++)
                         {
-                            a[k] = 1;
+                            path[k] = 1;
                         }
                     }
                     
-                    a[j]++;
+                    path[j]++;
                     break;
                 }
             }
@@ -103,9 +112,6 @@ int main (void)
                 was_changed[j] = false;
             }
         }
-        
-        if(a[0] == 1)
-            break;
     }
     
     return 0;
