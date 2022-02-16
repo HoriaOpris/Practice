@@ -48,23 +48,31 @@ int v[4][4]=
     8,5,9,3
 };
 
-int v2[4][8] =
-{
-    3,3,3,3,3,3,3,3,
-    7,7,7,7,4,4,4,4,
-    2,2,4,4,4,4,6,6,
-    8,5,5,9,5,9,9,3,
-};
+int sum[8] = {0};
 
-int v3[4][8];
+int Sum(int arr[], int size)
+{
+    int sum = 0;
+    
+    for(auto i = 0; i < size; i++)
+    {
+        sum += arr[i];
+    }
+    
+    return sum;
+}
 
 int main (void)
 {
     int a[4] = {0};
     bool was_changed[4] = {0};
     
-    for(auto i = 0; i < 8; i++)
+    while(1)
     {
+        int b[4] = {v[0][a[0]], v[1][a[1]], v[2][a[2]], v[3][a[3]]};
+        
+        std::cout<<a[0]<<a[1]<<a[2]<<a[3]<<"\t"<<Sum(b, 4)<<std::endl;
+        
         for(auto j = 3; j >= 0; j--)
         {
             if(was_changed[j] == false)
@@ -96,50 +104,9 @@ int main (void)
             }
         }
         
-        std::cout<<a[0]<<a[1]<<a[2]<<a[3]<<std::endl;
+        if(a[0] == 1)
+            break;
     }
-    
-    
-    
-//    int sum[8] = {0};
-//
-//    for(unsigned k = 0; k < 8; k++)
-//    {
-//        for(unsigned i = 0; i < 4; i++)
-//        {
-//            sum[k]+=v2[i][k];
-//        }
-//
-//        std::cout<<sum[k]<<" ";
-//    }
-//
-//    int number_of_0s[4];
-//
-//    for(unsigned i = 0; i < 4; i++)
-//    {
-//        int no_of_0 = 0;
-//
-//        for(unsigned j = 0; j < 4; j++)
-//        {
-//            if(v[i][j] == 0)
-//                no_of_0++;
-//        }
-//
-//        number_of_0s[i] = no_of_0;
-//        std::cout<<std::endl<<number_of_0s[i]<<std::endl;
-//    }
-        
-
-    
-//    for(unsigned i = 0; i < 15; i++)
-//    {
-//        for(unsigned j = 0; j < 15; j++)
-//        {
-//            std::cout<<n[i][j]<<" ";
-//        }
-//        std::cout<<std::endl;
-//    }
-    
     
     return 0;
 }
