@@ -19,7 +19,7 @@
  on the row below the maximum total from top to bottom is ?
  */
 
-#include<iostream>
+#include <iostream>
 
 #define DEMO_SIZE 4
 #define PROBLEM_SIZE 15
@@ -56,45 +56,45 @@ int v[DEMO_SIZE][DEMO_SIZE]=
 int Sum(int arr[], int size)
 {
     int sum = 0;
-    
-    for(auto i = 0; i < size; i++)
+
+    for (auto i = 0; i < size; i++)
     {
         sum += arr[i];
     }
-    
+
     return sum;
 }
 
 void InitPath(int arrOut[], int arrPath[], int arrVals[][SIZE])
 {
-    for(unsigned i = 0; i < SIZE; i++)
+    for (unsigned i = 0; i < SIZE; i++)
     {
         arrOut[i] = arrVals[i][arrPath[i]];
     }
 }
 
-int main (void)
+int main(void)
 {
     int path[SIZE] = {0};
     bool was_changed[SIZE] = {0};
     int max = 0;
-    
-    while(path[0] == 0)
+
+    while (path[0] == 0)
     {
         int out[SIZE];
         InitPath(out, path, n);
-        
-        if(max < Sum(out, SIZE))
+
+        if (max < Sum(out, SIZE))
         {
             max = Sum(out, SIZE);
-            std::cout<<max<<std::endl;
+            std::cout << max << std::endl;
         }
-        
-        for(auto j = SIZE - 1; j >= 0; j--)
+
+        for (auto j = SIZE - 1; j >= 0; j--)
         {
-            if(was_changed[j] == false)
+            if (was_changed[j] == false)
             {
-                if(((path[j] + 1) - path[j-1]) > 1)
+                if (((path[j] + 1) - path[j - 1]) > 1)
                 {
                     was_changed[j] = false;
                     path[j]--;
@@ -102,15 +102,15 @@ int main (void)
                 else
                 {
                     was_changed[j] = true;
-                    
-                    if(path[j] == 0)
+
+                    if (path[j] == 0)
                     {
-                        for(auto k = j + 1; k < SIZE; k++)
+                        for (auto k = j + 1; k < SIZE; k++)
                         {
                             path[k] = 1;
                         }
                     }
-                    
+
                     path[j]++;
                     break;
                 }
@@ -121,6 +121,6 @@ int main (void)
             }
         }
     }
-    
+
     return 0;
 }
