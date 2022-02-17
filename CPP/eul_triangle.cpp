@@ -81,19 +81,18 @@ int main(void)
     int max = 0;
     int routes = 0;
 
-  std::ofstream myfile;
-  myfile.open ("out.txt");
+    std::ofstream myfile;
+    myfile.open("out.txt");
 
     while (path[0] == 0)
     {
         int out[SIZE];
         InitPath(out, path, n);
 
-        // if (max < Sum(out, SIZE))
-        // {
-        //     max = Sum(out, SIZE);
-        //     std::cout << max << std::endl;
-        // }
+        if (max < Sum(out, SIZE))
+        {
+            max = Sum(out, SIZE);
+        }
 
         for (auto i = 0; i < SIZE; i++)
         {
@@ -107,26 +106,14 @@ int main(void)
         {
             if (was_changed[j] == false)
             {
-                // if (((path[j] + 1) - path[j - 1]) > 1)
-                // {
-                //     was_changed[j] = false;
-                //     path[j]--;
-                // }
-                // else
-                // {
-                    was_changed[j] = true;
+                for (auto k = j + 1; k < SIZE; k++)
+                {
+                    path[k] = path[j] + 1;
+                }
 
-                    if (path[j] == 0)
-                    {
-                        for (auto k = j + 1; k < SIZE; k++)
-                        {
-                            path[k] = 1;
-                        }
-                    }
-
-                    path[j]++;
-                    break;
-                // }
+                was_changed[j] = true;
+                path[j]++;
+                break;
             }
             else
             {
@@ -135,7 +122,8 @@ int main(void)
         }
     }
 
-    std::cout << routes;
+    std::cout << "Number of routes: " << routes << std::endl
+              << "Solution: " << max << std::endl;
     myfile.close();
 
     return 0;
