@@ -20,6 +20,7 @@
  */
 
 #include <iostream>
+#include <fstream>
 
 #define DEMO_SIZE 4
 #define PROBLEM_SIZE 15
@@ -78,29 +79,41 @@ int main(void)
     int path[SIZE] = {0};
     bool was_changed[SIZE] = {0};
     int max = 0;
+    int routes = 0;
+
+  std::ofstream myfile;
+  myfile.open ("out.txt");
 
     while (path[0] == 0)
     {
         int out[SIZE];
         InitPath(out, path, n);
 
-        if (max < Sum(out, SIZE))
+        // if (max < Sum(out, SIZE))
+        // {
+        //     max = Sum(out, SIZE);
+        //     std::cout << max << std::endl;
+        // }
+
+        for (auto i = 0; i < SIZE; i++)
         {
-            max = Sum(out, SIZE);
-            std::cout << max << std::endl;
+            myfile << path[i] << " ";
         }
+
+        myfile << std::endl;
+        routes++;
 
         for (auto j = SIZE - 1; j >= 0; j--)
         {
             if (was_changed[j] == false)
             {
-                if (((path[j] + 1) - path[j - 1]) > 1)
-                {
-                    was_changed[j] = false;
-                    path[j]--;
-                }
-                else
-                {
+                // if (((path[j] + 1) - path[j - 1]) > 1)
+                // {
+                //     was_changed[j] = false;
+                //     path[j]--;
+                // }
+                // else
+                // {
                     was_changed[j] = true;
 
                     if (path[j] == 0)
@@ -113,7 +126,7 @@ int main(void)
 
                     path[j]++;
                     break;
-                }
+                // }
             }
             else
             {
@@ -121,6 +134,9 @@ int main(void)
             }
         }
     }
+
+    std::cout << routes;
+    myfile.close();
 
     return 0;
 }
