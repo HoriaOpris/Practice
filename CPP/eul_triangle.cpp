@@ -21,7 +21,12 @@
 
 #include<iostream>
 
-int n[15][15] =
+#define DEMO_SIZE 4
+#define PROBLEM_SIZE 15
+
+#define SIZE PROBLEM_SIZE
+
+int n[PROBLEM_SIZE][PROBLEM_SIZE] =
 {
     75, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
     95,64, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
@@ -40,15 +45,13 @@ int n[15][15] =
      4,62,98,27,23, 9,70,98,73,93,38,53,60, 4,23,
 };
 
-int v[4][4]=
+int v[DEMO_SIZE][DEMO_SIZE]=
 {
     3,0,0,0,
     7,4,0,0,
     2,4,6,0,
     8,5,9,3
 };
-
-int sum[8] = {0};
 
 int Sum(int arr[], int size)
 {
@@ -62,9 +65,9 @@ int Sum(int arr[], int size)
     return sum;
 }
 
-void InitPath(int arrOut[], int arrPath[], int arrVals[][4])
+void InitPath(int arrOut[], int arrPath[], int arrVals[][SIZE])
 {
-    for(unsigned i = 0; i < 4; i++)
+    for(unsigned i = 0; i < SIZE; i++)
     {
         arrOut[i] = arrVals[i][arrPath[i]];
     }
@@ -72,17 +75,22 @@ void InitPath(int arrOut[], int arrPath[], int arrVals[][4])
 
 int main (void)
 {
-    int path[4] = {0};
-    bool was_changed[4] = {0};
+    int path[SIZE] = {0};
+    bool was_changed[SIZE] = {0};
+    int max = 0;
     
     while(path[0] == 0)
     {
-        int out[4]; //= {v[0][a[0]], v[1][a[1]], v[2][a[2]], v[3][a[3]]};
-        InitPath(out, path, v);
+        int out[SIZE];
+        InitPath(out, path, n);
         
-        std::cout<<path[0]<<path[1]<<path[2]<<path[3]<<"\t"<<Sum(out, 4)<<std::endl;
+        if(max < Sum(out, SIZE))
+        {
+            max = Sum(out, SIZE);
+            std::cout<<max<<std::endl;
+        }
         
-        for(auto j = 3; j >= 0; j--)
+        for(auto j = SIZE - 1; j >= 0; j--)
         {
             if(was_changed[j] == false)
             {
@@ -97,7 +105,7 @@ int main (void)
                     
                     if(path[j] == 0)
                     {
-                        for(auto k = j + 1; k < 4; k++)
+                        for(auto k = j + 1; k < SIZE; k++)
                         {
                             path[k] = 1;
                         }
