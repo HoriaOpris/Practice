@@ -1,3 +1,4 @@
+#pragma once
 //! Digital Output (DO) indexes
 typedef enum DO_index_ENUM
 {

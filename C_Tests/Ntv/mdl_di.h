@@ -1,3 +1,4 @@
+#pragma once
 //! Digital Input (DI) indexes
 typedef enum DI_index_ENUM
 {
