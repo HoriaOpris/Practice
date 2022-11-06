@@ -1,0 +1,37 @@
+A system that is operating and monitoring multiple relays.
+The system is equipped with multiple digital inputs (DI) and digital outputs (DO). 
+Digital outputs can be set to 12V (high, ON) or to 0V (GND, low, OFF) using the software.
+When talking about digital inputs we can say that using them we can detect
+ 12V (high, ON) or 0V (GND, low, OFF) in software.
+
+Relays can be Normally Open (NO) and Normally Closed (NC). 
+If relays are normally open that means that if you don’t apply voltage 
+to them they are not (should not be) closed. If they would be normally 
+closed it would be another way around.
+
+Regarding feedback lines of the relays, they are usually connected to 
+some digital input of the system. Using this digital input we can detect
+in which state relay is (open or closed). Depending on the relay configuration
+in the system there can be a 12V (high, ON) or 0V (GND, low, OFF) connected
+to system digital input if the relay is closed resulting with detection of
+logical high or low in the software of the system.
+
+Also, these relays may get damaged if operated while in high current loads
+so we need to monitor their feedback status. We can say that relay is welded
+if we are trying to open it and its feedback says it is still closed, while
+we can say that relay is constantly open if we are trying to close it and
+its feedback says it is still open.
+
+Design and implement software unit/module that:
+1. Controls (opens or closes) the relay over the digital output of the system.
+2. Receives controls of the relay on demands from the rest of the system (other SW units/modules) over it’s exposed API.
+3. Continuously monitors relay by reading its feedback status (if it has one) over system digital inputs.
+4. Detects errors by recognizing a mismatch between relays control and feedback line.
+5. Provide closed status (state) of relays to the rest of the system (open/closed).
+6. Provide error status (state) of relays to the rest of the system (no error/welded/constantly open).
+7. Exists in a simple task scheduler environment as a task/thread/process that needs separated functionality
+ for setup/initialization, run-time task execution, and post-execution/destruction.
+8. Will assume periodic calls from the scheduler of its run-time task execution part (function).
+9. Have documentation in terms of flow and state diagram for task execution part of the unit/module.
+10. Will be part of the library and then used in different systems with a different number of relays
+ (but up to some value), different digital inputs and different digital outputs indexes.
