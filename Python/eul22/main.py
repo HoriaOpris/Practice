@@ -1,19 +1,8 @@
 from alphabet import Alphabet
 f = open("names.txt", "r")
 
-names_raw = f.readline()
-names = []
-
 # Extract names
-previous_name_index = 0
-character_index = 0
-for character in names_raw:
-    if character == ',':
-        names.append(names_raw[names_raw.find(
-            "\"", previous_name_index) + 1:character_index - 1])
-        previous_name_index = character_index
-
-    character_index += 1
+names = f.read().replace('"','').split(',')
 
 # Sort names
 names.sort()
