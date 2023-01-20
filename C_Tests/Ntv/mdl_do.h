@@ -36,4 +36,4 @@ typedef enum DO_state_ENUM
 * @param [in] state - Digital power output state see ::DO_state_ENUM.
 * @return Nothing.
 ********************************************************************************************************/
-void DO_setOutputState(DO_index_E index, DO_state_E state);
+extern void DO_setOutputState(DO_index_E index, DO_state_E state);
