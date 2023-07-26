@@ -27,19 +27,25 @@ public:
     int maxArea(vector<int> &height)
     {
         int max = 0;
+        int i = 0, j = height.size() - 1;
 
-        for (int i = 0; i < height.size(); i++)
+        while (i < j)
         {
-            for (int j = 0; j < height.size(); j++)
-            {
-                int length = j - i;
-                int water_height = (height[i] < height[j]) ? height[i] : height[j];
-                int current_area = length * water_height;
+            int length = j - i;
+            int current_area = length * min(height[i], height[j]);
 
-                if (current_area > max)
-                {
-                    max = current_area;
-                }
+            if (current_area > max)
+            {
+                max = current_area;
+            }
+
+            if(height[i] < height[j])
+            {
+                i++;
+            }
+            else
+            {
+                j--;
             }
         }
 
