@@ -92,20 +92,10 @@ public:
                             return false;
                         }
                     }
-                }
-            }
-        }
 
-        // check columns
-        for (int col = 0; col < 9; col++)
-        {
-            for (int row = 0; row < 9; row++)
-            {
-                for (int k = row + 1; k < 9; k++)
-                {
-                    if (board[row][col] != '.')
+                    if (board[j][i] != '.')
                     {
-                        if (board[row][col] == board[k][col])
+                        if (board[j][i] == board[k][i])
                         {
                             return false;
                         }
