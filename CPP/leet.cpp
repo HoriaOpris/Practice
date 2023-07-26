@@ -59,7 +59,6 @@ class ValidSudoku
 public:
     bool isValidSudoku(vector<vector<char>> &board)
     {
-        // sub_box
         vector<vector<char>> sub_box = board;
 
         for (int i = 0; i < 9; i++)
@@ -70,35 +69,25 @@ public:
             }
         }
 
-        // check rows
         for (int i = 0; i < 9; i++)
         {
             for (int j = 0; j < 9; j++)
             {
                 for (int k = j + 1; k < 9; k++)
                 {
-                    if (board[i][j] != '.')
+                    if ((board[i][j] != '.') && (board[i][j] == board[i][k]))
                     {
-                        if (board[i][j] == board[i][k])
-                        {
-                            return false;
-                        }
+                        return false;
                     }
 
-                    if (sub_box[i][j] != '.')
+                    if ((sub_box[i][j] != '.') && (sub_box[i][j] == sub_box[i][k]))
                     {
-                        if (sub_box[i][j] == sub_box[i][k])
-                        {
-                            return false;
-                        }
+                        return false;
                     }
 
-                    if (board[j][i] != '.')
+                    if ((board[j][i] != '.') && (board[j][i] == board[k][i]))
                     {
-                        if (board[j][i] == board[k][i])
-                        {
-                            return false;
-                        }
+                        return false;
                     }
                 }
             }
