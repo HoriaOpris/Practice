@@ -59,6 +59,17 @@ class ValidSudoku
 public:
     bool isValidSudoku(vector<vector<char>> &board)
     {
+        // sub_box
+        vector<vector<char>> sub_box = board;
+
+        for (int i = 0; i < 9; i++)
+        {
+            for (int j = 0; j < 9; j++)
+            {
+                sub_box[i][j] = board[((i / 3) * 3) + (j / 3)][(j % 3) + (3 * (i % 3))];
+            }
+        }
+
         // check rows
         for (int i = 0; i < 9; i++)
         {
@@ -69,6 +80,14 @@ public:
                     if (board[i][j] != '.')
                     {
                         if (board[i][j] == board[i][k])
+                        {
+                            return false;
+                        }
+                    }
+
+                    if (sub_box[i][j] != '.')
+                    {
+                        if (sub_box[i][j] == sub_box[i][k])
                         {
                             return false;
                         }
@@ -87,36 +106,6 @@ public:
                     if (board[row][col] != '.')
                     {
                         if (board[row][col] == board[k][col])
-                        {
-                            return false;
-                        }
-                    }
-                }
-            }
-        }
-
-        cout << endl;
-        // sub_box
-        vector<vector<char>> sub_box = board;
-
-        for (int i = 0; i < 9; i++)
-        {
-            for (int j = 0; j < 9; j++)
-            {
-                sub_box[i][j] = board[((i / 3) * 3) + (j / 3)][(j % 3) + (3 * (i % 3))];
-            }
-            cout << endl;
-        }
-
-        for (int i = 0; i < 9; i++)
-        {
-            for (int j = 0; j < 9; j++)
-            {
-                for (int k = j + 1; k < 9; k++)
-                {
-                    if (sub_box[i][j] != '.')
-                    {
-                        if (sub_box[i][j] == sub_box[i][k])
                         {
                             return false;
                         }
