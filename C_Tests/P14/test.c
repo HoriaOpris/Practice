@@ -2,7 +2,7 @@
 #include "test.h"
 #include "utils/bigint_test.h"
 #include <stdio.h>
-#include <malloc.h>
+#include <stdlib.h>
 
 enum testVerdict
 {

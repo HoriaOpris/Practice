@@ -8,7 +8,7 @@ What is the millionth lexicographic permutation of the digits 0, 1, 2, 3, 4, 5, 
 
 #include <stdio.h>
 #include <string.h>
-#include <malloc.h>
+#include <stdlib.h>
 
 #define ELEMENTS_IN(arr) (sizeof(arr) / sizeof(arr[0]))
 

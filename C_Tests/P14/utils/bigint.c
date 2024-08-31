@@ -1,5 +1,5 @@
 #include "bigint.h"
-#include <malloc.h>
+#include <stdlib.h>
 
 static void IncrementTerminatorMarker(int *digit);
 
