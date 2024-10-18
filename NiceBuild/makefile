@@ -1,8 +1,11 @@
 Compiler = gcc-14
-CFLAGS = -Wall
+Flags = -Wall -Isrc/app
+SRC_DIRS := ./src
+
+SRCS := $(shell find $(SRC_DIRS) -name '*.c')
 
 clean:
 	rm *.out
 
 all:
-	$(Compiler) *.c $(CFLAGS) -o Program.out
+	$(Compiler) $(Flags) $(SRCS) -o Program.out
