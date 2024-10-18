@@ -1,7 +1,7 @@
 TARGET_EXEC := ../Program.out
 
 CC = gcc-14
-CFLAGS = -Wall
+CFLAGS = -Wall -fanalyzer
 LDFLAGS =
 BUILD_DIR := ./build
 SRC_DIRS := ./src
