@@ -24,7 +24,6 @@ static void GetInput(int arr[SIZE][SIZE])
     do
     {
         ch = fgetc(ptr);
-        printf("%c", ch);
 
         add[0] = ch;
         strcat(str, add);
@@ -53,4 +52,36 @@ static void GetInput(int arr[SIZE][SIZE])
 int main(void)
 {
     GetInput(input);
+
+    int sum = 0, i = 0, j = 0;
+    do
+    {
+        if (sum == 0)
+        {
+            sum = input[i][j];
+        }
+        else
+        {
+            int right = input[i][j + 1];
+            int down = input[i + 1][j];
+
+            if ((right < down) && (j < (SIZE - 1)))
+            {
+                sum += right;
+                printf("%d ", right);
+                j++;
+            }
+            else
+            {
+                if (i < (SIZE - 1))
+                {
+                    sum += down;
+                    printf("%d ", down);
+                }
+                i++;
+            }
+        }
+    } while ((i < SIZE) && (j < SIZE));
+
+    printf("sum: %d\n", sum);
 }
