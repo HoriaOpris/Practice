@@ -1,2 +1,6 @@
 *.exe
 *.out
+*.yml
+*.DS_Store
+*.plist
+*.json
