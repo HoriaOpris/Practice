@@ -8,31 +8,28 @@ struct node
 
 struct node first_element;
 
-void AddNode(int value)
+void AddNode(struct node *node, int value)
 {
-    struct node *current = &first_element;
-
-    while (current->next_element != NULL)
+    if(node->next_element == NULL)
     {
-        current = current->next_element;
+        node->value = value;
+
+        node->next_element = malloc(sizeof(struct node));
+        
+        node->next_element->value = 0;
+        node->next_element->next_element = NULL;
     }
-
-    current->value = value;
-    struct node *local = malloc(sizeof(struct node));
-
-    if (local != NULL)
+    else
     {
-        local->value = 0;
-        local->next_element = NULL;
-        current->next_element = local;
+        AddNode(node->next_element, value);
     }
 }
 
 int main(void)
 {
-    AddNode(1);
-    AddNode(2);
-    AddNode(3);
+    AddNode(&first_element, 1);
+    AddNode(&first_element, 2);
+    AddNode(&first_element, 3);
 
     return 0;
 }
