@@ -3,33 +3,40 @@
 struct node
 {
     int value;
-    struct node *next_element;
+    struct node *left;
+    struct node *right;
 };
 
 struct node first_element;
 
-void AddNode(struct node *node, int value)
+void AddNode(struct node **node, int value)
 {
-    if(node->next_element == NULL)
+    if (*node == NULL)
     {
-        node->value = value;
-
-        node->next_element = malloc(sizeof(struct node));
-        
-        node->next_element->value = 0;
-        node->next_element->next_element = NULL;
+        *node = malloc(sizeof(struct node));
+        (**node).value = value;
     }
     else
     {
-        AddNode(node->next_element, value);
+        if (value <= (**node).value)
+        {
+            AddNode(&(**node).left, value);
+        }
+        else
+        {
+            AddNode(&(**node).right, value);
+        }
     }
 }
 
 int main(void)
 {
-    AddNode(&first_element, 1);
-    AddNode(&first_element, 2);
-    AddNode(&first_element, 3);
+    first_element.value = 100;
+    struct node *node = &first_element;
+
+    AddNode(&node, 45);
+    AddNode(&node, 145);
+    AddNode(&node, 60);
 
     return 0;
 }
