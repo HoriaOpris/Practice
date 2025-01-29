@@ -1,0 +1,23 @@
+noding.c:1:0: information: Include file: <stdlib.h> not found. Please note: Cppcheck does not need standard library headers to get proper results. [missingIncludeSystem]
+#include <stdlib.h>
+^
+noding.c:12:6: style: A compatible definition shall be visible [misra-c2012-8.4]
+void AddNode(struct node **node, int value)
+     ^
+noding.c:10:13: style: A compatible definition shall be visible [misra-c2012-8.4]
+struct node first_element;
+            ^
+noding.c:16:15: style: misra violation 1105 with no text in the supplied rule-texts-file [misra-c2012-11.5]
+        *node = malloc(sizeof(struct node));
+              ^
+noding.c:23:13: style: misra violation 1702 with no text in the supplied rule-texts-file [misra-c2012-17.2]
+            AddNode(&(**node).left, value);
+            ^
+noding.c:27:13: style: misra violation 1702 with no text in the supplied rule-texts-file [misra-c2012-17.2]
+            AddNode(&(**node).right, value);
+            ^
+noding.c:16:23: style: misra violation 2103 with no text in the supplied rule-texts-file [misra-c2012-21.3]
+        *node = malloc(sizeof(struct node));
+                      ^
+nofile:0:0: information: Active checkers: 150/836 (use --checkers-report=<filename> to see details) [checkersReport]
+
