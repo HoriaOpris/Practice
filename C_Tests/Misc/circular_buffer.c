@@ -2,7 +2,7 @@
 #include <stdint.h>
 #include <stdbool.h>
 
-#define BUF_SIZE 4
+#define BUF_SIZE 3
 
 uint8_t res[BUF_SIZE];
 // Circular Buffer
@@ -18,41 +18,46 @@ struct circular_buffer
     uint8_t *current;
     uint8_t writei;
     uint8_t readi;
+    uint8_t count;
 };
 
 struct circular_buffer buf = {res, 0u, 0u};
 
 bool push(uint8_t value)
 {
-    buf.writei = ((buf.writei + 1) % BUF_SIZE);
-    buf.current[buf.writei] = value;
-
-    if (buf.writei == buf.readi)
+    if (buf.count < BUF_SIZE)
+    {
+        buf.count++;
+    }
+    else
     {
         // buffer overflow
         buf.readi = ((buf.readi + 1) % BUF_SIZE);
         printf("\tindex:%d\n", buf.readi);
     }
+
+    buf.current[buf.writei] = value;
+    buf.writei = ((buf.writei + 1) % BUF_SIZE);
+
+    return true;
 }
 
 bool pop(uint8_t *value)
 {
-    if (buf.writei == buf.readi)
+    if (buf.count == 0)
     {
-        // buffer is empty
         return 0;
     }
 
+    buf.count--;
     *value = buf.current[buf.readi];
-
     buf.readi = ((buf.readi + 1) % BUF_SIZE);
 
-    return 1;
+    return true;
 }
 
 int main(void)
 {
-
     uint8_t val = 1;
 
     while (1)
