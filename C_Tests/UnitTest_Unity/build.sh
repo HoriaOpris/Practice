@@ -1,0 +1,1 @@
+clang src/*.c *.c -I src
